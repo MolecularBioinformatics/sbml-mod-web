@@ -1,0 +1,216 @@
+{% extends "sbmlmod/base.html" %}
+{% load staticfiles %}
+
+{% block menu-bar %}
+  <li class="selected"><a href="/sbmlmod/">Home</a></li>
+  <li><a href="/sbmlmod/help/">Help</a></li>
+{% endblock %}
+
+
+{% block content %}
+
+  {% if not version %}
+  <div class="span-24">
+    <p/>
+    <p class="error">Server is down. Please try again later.</p>
+  </div>
+  {% else %}
+  <form action="" method="post" enctype="multipart/form-data">
+  <div class="span-12">
+    <div class="queryform">
+  <h3>A. Input files</h3>
+
+  {% if error %} 
+    {% for err in error %}
+  <div class=error>
+    {{ err }}
+  </div>
+    {% endfor %} 
+  {% endif %}
+      {{ form.non_field_errors }}
+      <table>
+	<tr>
+	  <td>
+            <div class="fieldWrapper">
+	    {{ form.subject.errors }} 
+	    {{ form.example_files }} <label for="id_example_files">Use
+	      example files</label> 
+	    </div>
+	    <p/>
+	  </td>
+	  <td>
+	  </td>
+	</tr>
+	<tr>
+	  <td>
+        <div class="fieldWrapper">
+	  {{ form.subject.errors }} 
+	  <label for="id_sbml_file">SBML file:</label> 
+          </td>
+	  <td>
+	  {{ form.sbml_file }}</div>
+          </td>
+	</tr>
+      <tr>
+	<td>&nbsp;
+	</td>
+	<td>
+	</td>
+	<td>
+	</td>
+      </tr>
+	<tr>
+	  <td>
+        <div class="fieldWrapper">
+	  {{ form.subject.errors }} 
+	  <label for="id_kinetic_law_data_file">Kinetic law data file:</label> 
+          </td>
+	  <td>
+	  {{ form.kinetic_law_data_file }}</div>
+          </td>
+	</tr>
+	<tr>
+	  <td>
+        <div class="fieldWrapper"> 
+	  {{ form.subject.errors }} 
+	  <label for="id_kl_data_column">&nbsp;&nbsp;&nbsp;&nbsp;Data column:</label> 
+	  </td>
+	  <td>
+	  {{ form.kl_data_column }} Specify column in data file
+	  (default is 2)</div>
+          </td>
+	</tr>
+	<tr>
+	  <td>
+        <div class="fieldWrapper">
+	  {{ form.subject.errors }}
+	  <label for="id_kl_mapping_file">&nbsp;&nbsp;&nbsp;&nbsp;Mapping file:</label> 
+          </td>
+	  <td>
+	  {{ form.kl_mapping_file }}</div>
+	  </td>
+        </tr>
+      <tr>
+	<td>&nbsp;
+	</td>
+	<td>
+	</td>
+	<td>
+	</td>
+      </tr>
+        <tr>
+ 	   <td>
+	<div class="fieldWrapper">
+	  {{ form.subject.errors }} 
+	  <label for="id_species_data_file">Species data file:</label> 
+          </td>
+	  <td>
+	  {{ form.species_data_file }}</div>
+          </td>
+	</tr>
+	<tr>
+          <td>
+        <div class="fieldWrapper"> 
+	  {{ form.subject.errors }} 
+	  <label for="id_s_data_column">&nbsp;&nbsp;&nbsp;&nbsp;Data column:</label>
+	  </td>
+	  <td> 
+	  {{ form.s_data_column }} Specify column in data file
+	  (default is 2)</div>
+	</td>
+	</tr>
+	<tr>
+	  <td>
+        <div class="fieldWrapper"> 
+	  {{ form.subject.errors }} 
+	  <label for="id_s_mapping_file">&nbsp;&nbsp;&nbsp;&nbsp;Mapping file:</label> 
+          </td>
+	  <td>
+	  {{ form.s_mapping_file }}</div>
+	</td>
+	<td>
+	</td>
+      </tr>
+      <tr>
+	<td>&nbsp;
+	</td>
+	<td>
+	</td>
+	<td>
+	</td>
+      </tr>
+      <tr>
+	<td>
+        <div class="fieldWrapper">
+	  {{ form.subject.errors }} 
+	  {{ form.batch_mode }} <label for="id_batch_mode">Batch mode</label> 
+	  </div>
+          </td>
+	  <td>
+	  </td>
+	  <td>
+	  </td>
+      </tr>
+      </table>
+        <p class="right"><input type="reset" value="Reset"></p>
+	<br/>
+    </div>
+  </div>
+
+  <div class="span-12 last">
+
+    <div class="queryform">
+      <h3>B. Choose analysis</h3>
+      <div class="querysubform">
+         <h4><img style="float:left" src="{% static "sbmlmod/images/system-run-5.png" %}" alt="Run"/>&nbsp;Adjust global and/or kinetic law parameters</h4>
+         <div class="fieldWrapper">
+	  {{ form.subject.errors }} 
+	   <label>Parameters:</label>
+           {{ form.global_parameters }}
+           <label for="id_global_parameters">Global</label> 
+           {{ form.kinetic_law_parameters }}
+           <label for="id_kinetic_law_parameters">Kinetic law</label> 
+	   </div>
+        <div class="fieldWrapper">
+	  {{ form.subject.errors }} 
+	   <label for="id_parameter">Parameter:</label> 
+	   {{ form.parameter }} (E_T for example files)</div>
+          <div class="fieldWrapper">
+	  {{ form.subject.errors }} 
+           <label for="id_replace_or_scale">Replace or scale:</label> 
+	   {% for radio in form.replace_or_scale %}
+             {{ radio }}
+	     {% endfor %}</div>
+         <div class="fieldWrapper">
+	  {{ form.subject.errors }} 
+	   <label for="id_kl_merge_mode">Merge mode:</label> 
+	   {{ form.kl_merge_mode }}</div>
+         {% csrf_token %}
+       <p class="right"><input type="submit" name="kinetic" value="Submit"></p>
+       <br/>
+       </div>
+
+<div class="querysubform">
+       <h4><img style="float:left" src="{% static "sbmlmod/images/system-run-5.png" %}" alt="Run"/>&nbsp;Add kinetic law bounds</h4>
+          <div class="fieldWrapper">
+	    {{ form.subject.bounds_default }}
+	    <label for="id_bounds_default">Bounds default value:</label> 
+	    {{ form.bounds_default }}</div>
+          <div class="fieldWrapper">
+	    {{ form.subject.merge_mode }} 
+	    <label for="id_b_merge_mode">Merge mode:</label> 
+	    {{ form.b_merge_mode }}</div>
+        <p class="right"><input type="submit" name="bounds" value="Submit"></p>
+	<br/>
+       </div>
+       <div class="querysubform">
+        <h4><img style="float:left" src="{% static "sbmlmod/images/system-run-5.png" %}" alt="Run"/>&nbsp;Adjust initial species concentrations</h4>
+        <p class="right"><input type="submit" name="species" value="Submit"></p>
+	<br/>
+       </div>
+      </div>
+    </div>
+  {% endif %}
+  </form>
+
+{% endblock %}
