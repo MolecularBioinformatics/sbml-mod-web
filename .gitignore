@@ -52,8 +52,5 @@ coverage.xml
 # Sphinx documentation
 docs/_build/
 
-# Session files
-sessionfiles
-
 # Database
 db.sqlite3
