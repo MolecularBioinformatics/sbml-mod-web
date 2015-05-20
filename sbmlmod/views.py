@@ -27,7 +27,6 @@ MAPPING_FILE = os.path.join(PATH, 'testfiles/mapping.txt')
 KINETIC_LAW_DATA_FILE = os.path.join(PATH, 'testfiles/kinetic_law_data.csv')
 SPECIES_DATA_FILE = os.path.join(PATH, 'testfiles/species_data.csv')
 
-
 wsurl = Wsdl.objects.get(wsdl_name='SBMLEdit').wsdl_url
 client = Client(wsurl, cache=None)
 
