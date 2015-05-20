@@ -42,7 +42,7 @@ def __scale_global_ws(sbml_file_list, mapping_file, expression_file, kl_column =
     mapping_file_e = base64.b64encode(mapping_file)
     expression_file_e = base64.b64encode(expression_file)
     try:
-        response = client.service.ScaleGlobalParametersBase64Encoded(SbmlModelFiles=sbml_file_list_e, 
+        response = client.service.ScaleGlobalParametersBase64Encoded(SbmlModelFiles=sbml_file_list_e,
                                                                  DataFile=expression_file_e,
                                                                  MappingFile=mapping_file_e,
                                                                  DataColumnNumber=kl_column,
@@ -61,7 +61,7 @@ def __replace_global_ws(sbml_file_list, mapping_file, expression_file, kl_column
     mapping_file_e = base64.b64encode(mapping_file)
     expression_file_e = base64.b64encode(expression_file)
     try:
-        response = client.service.ReplaceGlobalParametersBase64Encoded(SbmlModelFiles=sbml_file_list_e, 
+        response = client.service.ReplaceGlobalParametersBase64Encoded(SbmlModelFiles=sbml_file_list_e,
                                                                    DataFile=expression_file_e,
                                                                    MappingFile=mapping_file_e,
                                                                    DataColumnNumber=kl_column,
@@ -123,8 +123,8 @@ def __add_bounds_ws(sbml_file_list, default_value, mapping_file, expression_file
     mapping_file_e = base64.b64encode(mapping_file)
     expression_file_e = base64.b64encode(expression_file)
     try:
-        response = client.service.AddBoundsToKineticLawBase64Encoded(SbmlModelFiles=sbml_file_list_e,   
-                                                                     DefaultValue=int(default_value),                                                     
+        response = client.service.AddBoundsToKineticLawBase64Encoded(SbmlModelFiles=sbml_file_list_e,
+                                                                     DefaultValue=int(default_value),
                                                                      DataFile=expression_file_e,
                                                                      MappingFile=mapping_file_e,
                                                                      DataColumnNumber=kl_column,
@@ -145,7 +145,7 @@ def __replace_conc_ws(sbml_file_list, mapping_file, data_file, s_column = 2, bat
     mapping_file_e = base64.b64encode(mapping_file)
     expression_file_e = base64.b64encode(data_file)
     try:
-        response = client.service.ReplaceInitialConcentrationsOfSpeciesBase64Encoded(SbmlModelFiles=sbml_file_list_e, 
+        response = client.service.ReplaceInitialConcentrationsOfSpeciesBase64Encoded(SbmlModelFiles=sbml_file_list_e,
                                                                                  DataFile=expression_file_e,
                                                                                  MappingFile=mapping_file_e,
                                                                                  DataColumnNumber=s_column,
@@ -218,7 +218,7 @@ def __setup_session(request, form):
     request.session['submitted_input'] = submitted_input
     request.session['copasi_results'] = None
     request.session['copasi_fault'] = None
-    
+
     request.session['kl_done'] = False
     request.session['b_done'] = False
     request.session['s_done'] = False
@@ -229,7 +229,7 @@ def __setup_session(request, form):
         request.session['b_done'] = True
     if not submitted_input['species_data_file']:
         request.session['s_done'] = True
-    
+
     return request
 
 def __update_session(request, form):
@@ -240,11 +240,11 @@ def __update_session(request, form):
         request.session['submitted_input']['kinetic_parameter'] = form.cleaned_data['parameter']
         request.session['submitted_input']['replace_or_scale'] = form.cleaned_data['replace_or_scale']
         request.session['submitted_input']['kl_merge_mode'] = form.cleaned_data['kl_merge_mode']
-            
+
     if not request.session['b_done']:
-        request.session['submitted_input']['bounds_default'] = form.cleaned_data['bounds_default']    
+        request.session['submitted_input']['bounds_default'] = form.cleaned_data['bounds_default']
         request.session['submitted_input']['b_merge_mode'] = form.cleaned_data['b_merge_mode']
-    
+
     return request
 
 
@@ -268,8 +268,8 @@ def __kinetic_law_parameters(request, error, initial_model=True):
     batch_mode = request.session['submitted_input']['batch_mode']
     kl_merge_mode = request.session['submitted_input']['kl_merge_mode']
     #print kl_merge_mode
-    
-    # Check 
+
+    # Check
     result_ok = True
     if sbml_file_list == ['']:
         result_ok = False
@@ -283,7 +283,7 @@ def __kinetic_law_parameters(request, error, initial_model=True):
     if kinetic_law_parameters and kinetic_parameter == '':
         result_ok = False
         error.append('Parameter must be given when Kinetic law parameters is  selected.')
-    
+
     # Choose action
     response = None
     if result_ok:
@@ -382,16 +382,16 @@ def __kinetic_law_parameters(request, error, initial_model=True):
         else:
             result_ok = False
             error.append('Choose one or both of Global parameters or Kinetic law parameters.')
-    
+
     if result_ok:
         request.session['kl_done'] = True
         request.session['copasi_done'] = False
     else:
         request.session['kl_done'] = False
 
-    
+
     return request, response, result_ok, error
-    
+
 
 def __kinetic_law_bounds(request, error, initial_model=True):
     if initial_model:
@@ -407,8 +407,8 @@ def __kinetic_law_bounds(request, error, initial_model=True):
     batch_mode = request.session['submitted_input']['batch_mode']
     bounds_default = request.session['submitted_input']['bounds_default']
     b_merge_mode = request.session['submitted_input']['b_merge_mode']
-    
-    # Check 
+
+    # Check
     result_ok = True
     if sbml_file_list == ['']:
         result_ok = False
@@ -416,7 +416,7 @@ def __kinetic_law_bounds(request, error, initial_model=True):
     if not bounds_default:
         result_ok = False
         error.append('Bounds default value must be given.')
-        
+
     # Choose action
     response = None
     if result_ok:
@@ -430,10 +430,10 @@ def __kinetic_law_bounds(request, error, initial_model=True):
         if fault:
             result_ok = False
             error.append(fault)
-    
+
     request.session['b_done'] = True
     request.session['copasi_done'] = False
-    
+
     return request, response, result_ok, error
 
 def __species_concentrations(request, error, initial_model=True):
@@ -448,8 +448,8 @@ def __species_concentrations(request, error, initial_model=True):
     species_data_file = request.session['submitted_input']['species_data_file']
     s_column = request.session['submitted_input']['s_column']
     batch_mode = request.session['submitted_input']['batch_mode']
-    
-    # Check 
+
+    # Check
     result_ok = True
     if sbml_file_list == ['']:
         result_ok = False
@@ -457,7 +457,7 @@ def __species_concentrations(request, error, initial_model=True):
     if not species_data_file:
         result_ok = False
         error.append('Species concentration data file must be given.')
-    
+
     # Choose action
     response = None
     if result_ok:
@@ -469,10 +469,10 @@ def __species_concentrations(request, error, initial_model=True):
         if fault:
             result_ok = False
             error.append(fault)
-    
+
     request.session['s_done'] = True
     request.session['copasi_done'] = False
-    
+
     return request, response, result_ok, error
 
 def __copasi(request, error):
@@ -481,9 +481,9 @@ def __copasi(request, error):
     request.session['copasi_results'] = {}
     for name, content in zip(request.session['result_names'], results):
         request.session['copasi_results'][name] = content
-    
+
     request.session['copasi_done'] = True
-    
+
     return request, error
 
 
@@ -508,7 +508,7 @@ def index(request):
                 request, response, result_ok, error = __kinetic_law_bounds(request, error, initial_model=True)
             elif 'species' in request.POST:
                 request, response, result_ok, error = __species_concentrations(request, error, initial_model=True)
-            
+
             if result_ok:
                 newsbml_files = response.SbmlModelFiles
                 try:
@@ -517,9 +517,9 @@ def index(request):
                     warnings = []
                 request.session['result_names'] = []
                 request.session['result_contents'] = {}
-                for file in newsbml_files:
-                   name = file.Name
-                   content = base64.b64decode(file.SbmlModelFile)
+                for _file in newsbml_files:
+                   name = _file.Name
+                   content = base64.b64decode(_file.SbmlModelFile)
                    request.session['result_names'].append(name)
                    request.session['result_contents'][name] = content
                 request.session['warnings'] = warnings
@@ -532,15 +532,14 @@ def index(request):
              merge_modes.append((n[0], n[0].title()))
         merge_modes = tuple(merge_modes)
         form = SbmlEditForm(merge_modes=merge_modes)
-        
+
     try:
         version = client.service.GetVersion()
     except URLError:
         version = ''
     context = {'version': version,
                'form': form,
-               'error': error,
-               }
+               'error': error}
     return render(request, 'sbmlmod/index.html', context)
 
 def results(request):
@@ -551,7 +550,7 @@ def results(request):
         if form.is_valid():
             # Setup session
             request = __update_session(request, form)
-            
+
             # Identify and initiate analysis
             if 'kinetic' in request.POST:
                 request.session['copasi_results'] = {}
@@ -565,7 +564,7 @@ def results(request):
             elif 'copasi' in request.POST:
                 print "COPASI"
                 request, error = __copasi(request, error)
-            
+
             if result_ok:
                 newsbml_files = response.SbmlModelFiles
                 warnings = response.Warnings
@@ -603,11 +602,19 @@ def results(request):
     return render(request, 'sbmlmod/results.html', context)
 
 def help(request):
-    context = {}
+    try:
+        version = client.service.GetVersion()
+    except URLError:
+        version = ''
+    context = {'version': version}
     return render(request, 'sbmlmod/help.html', context)
 
 def webservice(request):
-    context = {}
+    try:
+        version = client.service.GetVersion()
+    except URLError:
+        version = ''
+    context = {'version': version}
     return render(request, 'sbmlmod/webservice.html', context)
 
 def get_model(request, name):
