@@ -5,13 +5,11 @@
 <title>SBMLmod {{ version }}</title>
 <link rel="stylesheet" type="text/css" href= "{% static 'sbmlmod/css/sbmlmod.css' %}">
 <script type="text/javascript">
-function unhide(divID)
+function toggleWarnings()
 {
-	var item = document.getElementById(divID);
-	if (item)
-	{
-		item.className = (item.className=='hidden')?'unhidden':'hidden';
-	}
+	var item = document.getElementById('show_warnings');
+	document.getElementById('warningsLink').innerHTML = (item.className=='hidden')?'Hide warnings':'Show warnings';
+	item.className = (item.className=='hidden')?'unhidden':'hidden';
 }
 </script>
 </head>

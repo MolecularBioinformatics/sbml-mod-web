@@ -2,204 +2,156 @@
 {% load staticfiles %}
 
 {% block menu-bar %}
-  <li><a href="/sbmlmod/">Home</a></li>
-  <li><a href="/sbmlmod/help/">Help</a></li>
+	<li><a href="/sbmlmod/">Home</a></li>
+	<li><a href="/sbmlmod/help/">Help</a></li>
 {% endblock %}
 
 {% block content %}
-
-  <form action="" method="post" enctype="multipart/form-data">
-  <div class="span-12">
-    <div class="contentbox">
-
-      <h3>Result files</h3>
-<table>
-<tr>
-<th>SBML model</th>
-{% if copasi_results %}
-<th>Simulation</th>
-{% else %}
-<td></td>
+{% if copasi_fault %}
+	<p class="error">{{ copasi_fault }}</p>
 {% endif %}
-</tr>
-
-{% for name in result_names %}
-
-<tr>
-<td>
-  <a href="/sbmlmod/results/{{ name }}"><img style="float:left" src="{% static "sbmlmod/images/text-xml.png" %}" alt="Zip archive"/></a>
-    &nbsp;
-  <a href="/sbmlmod/results/{{ name }}">{{ name }} model</a></td>
-{% if copasi_results %}
-<td>
-  <a href="/sbmlmod/results/simulations/{{ name }}"><img style="float:left" src="{% static "sbmlmod/images/text-plain.png" %}" alt="Zip archive"/></a>
-    &nbsp;
-  <a href="/sbmlmod/results/simulations/{{ name }}">{{ name }}
-  simulation</a></td>
-{% else %}
-<td></td>
-{% endif %}
-</tr>
+	<div class="span-12">
+		<div class="contentbox">
+			<h1>Result files</h1>
+			<table>
+				<tr>
+					<th>SBML model</th>
+					{% if copasi_results %}
+					<th>Simulation</th>
+					{% else %}
+					<th></th>
+					{% endif %}
+				</tr>
+				{% for name in result_names %}
+				<tr>
+					<td><a href="/sbmlmod/results/{{ name }}"><img src="{% static 'sbmlmod/images/text-xml.png' %}" alt="Zip archive"/> {{ name }} model</a></td>
+					{% if copasi_results %}
+					<td><a href="/sbmlmod/results/simulations/{{ name }}"><img src="{% static 'sbmlmod/images/text-plain.png' %}" alt="Zip archive"/> {{ name }} simulation</a></td>
+					{% else %}
+					<td></td>
+					{% endif %}
+				</tr>
+				{% endfor %}
+				<tr>
+					<td>
+						<a href="/sbmlmod/results/get_models_zipped/"><img style="float:left" src="{% static 'sbmlmod/images/application-zip.png' %}" alt="Zip archive"/> Zipped archive of models</a>
+					</td>
+					{% if copasi_results %}
+					<td><a href="/sbmlmod/results/get_simulations_zipped/"><img style="float:left" src="{% static 'sbmlmod/images/application-zip.png' %}" alt="Zip archive"/> Zipped archive of simulations</a>
+					</td>
+					{% else %}
+					<td></td>
+					{% endif %}
+				</tr>
+			</table>
+		</div>
+		{% if warnings %}
+		<div class="warnings">
+			<a href="javascript:toggleWarnings();"><span id="warningsLink">Hide warnings</span></a>
+			<div id="show_warnings" class="unhidden">
+				<textarea>
+{% for warning in warnings %}{{ warning }}
 
 {% endfor %}
+				</textarea>
+			</div>
+		</div>
+		{% endif %}
+	</div>
 
+	<div class="span-12 last">
+		<form action="" method="post" enctype="multipart/form-data">
+		{% csrf_token %}
+		<div class="queryform">
+			<h1>Perform additional analysis</h1>
+			{% if form.errors %}
+			<p class="error">
+				Please correct the error{{ form.errors|pluralize }} below.
+			</p>
+			<p>
+				{{ form.errors }}
+			</p>
+			{% endif %}
+			{% for err in error %}
+			<p class="error">
+				{{ err }}
+			</p>
+			{% endfor %}
 
-<tr>
-<td>&nbsp;</td>
-<td></td>
-</tr
+			{% if not kl_done %}
+			<fieldset>
+				<legend>Adjust parameters <img src="{% static 'sbmlmod/images/help_16.png' %}" alt="help" /></legend>
+				<p>
+					{{ form.global_parameters }} <label for="id_global_parameters">Global parameters</label>
+					{{ form.kinetic_law_parameters }} <label for="id_kinetic_law_parameters">Kinetic law parameters</label>
+				</p>
+				<p>
+					<label for="id_parameter">Parameter:</label>
+					{{ form.parameter }} (E_T for example files)
+				</p>
+				<p>
+					{% for radio in form.replace_or_scale %}{{ radio }}{% endfor %}
+				</p>
+				<p>
+					Merge mode:
+					{{ form.kl_merge_mode }}
+				</p>
+				<p class="right">
+					<button type="submit" name="kinetic"><img src="{% static 'sbmlmod/images/system-run-5.png' %}" alt="Run" /></button>
+				</p>
+			</fieldset>
+			{% endif %}
+			{% if not b_done %}
+			<fieldset>
+				<legend>Add kinetic law bounds <img src="{% static 'sbmlmod/images/help_16.png' %}" alt="help" /></legend>
+				<table class="left">
+				<tr>
+					<td><label for="id_bounds_default">Bounds default value:</label></td>
+					<td>{{ form.bounds_default }}</td>
+					<td><img src="{% static 'sbmlmod/images/help_16.png' %}" alt="help" /></td>
+				</tr>
+				<tr>
+					<td><label for="id_b_merge_mode">Merge mode:</label></td>
+					<td>{{ form.b_merge_mode }}</td>
+					<td><img src="{% static 'sbmlmod/images/help_16.png' %}" alt="help" /></td>
+				</tr>
+				</table>
+				<p class="right">
+					<button type="submit" name="bounds"><img src="{% static 'sbmlmod/images/system-run-5.png' %}" alt="Run" /></button>
+				</p>
+			</fieldset>
+			{% endif %}
+			{% if not s_done %}
+			<fieldset>
+				<legend>Adjust initial species concentrations <img src="{% static 'sbmlmod/images/help_16.png' %}" alt="help" /></legend>
 
+				<p class="right">
+					<button type="submit" name="species"><img src="{% static 'sbmlmod/images/system-run-5.png' %}" alt="Run" /></button>
+				</p>
+			</fieldset>
+			{% endif %}
+			{% if not copasi_done %}
+			<fieldset>
+				<legend>Perform steady state analysis with COPASI</legend>
 
-<tr>
-<td>
-  <a href="/sbmlmod/results/get_models_zipped/"><img style="float:left" src="{% static "sbmlmod/images/application-zip.png" %}" alt="Zip archive"/></a>
-    &nbsp;
-  <a href="/sbmlmod/results/get_models_zipped/">Zipped archive of models</a>
-</td>
+				<p class="right">
+					<button type="submit" name="copasi"><img src="{% static 'sbmlmod/images/system-run-5.png' %}" alt="Run" /></button>
+				</p>
+			</fieldset>
+			{% endif %}
 
-{% if copasi_results %}
+			{% if copasi_done and s_done and b_done and kl_done and not copasi_fault %}
+			<p class="success">
+				All analyses have been completed.
+			</p>
+			{% elif copasi_done and s_done and b_done and kl_done and copasi_fault %}
+			<p class="error">
+				All analyses have been completed, but errors occured.
+			</p>
+			{% endif %}
 
-<td>
-  <a href="/sbmlmod/results/get_simulations_zipped/"><img style="float:left" src="{% static "sbmlmod/images/application-zip.png" %}" alt="Zip archive"/></a>
-    &nbsp;
-  <a href="/sbmlmod/results/get_simulations_zipped/">Zipped archive of simulations</a>
-</td>
-{% elif copasi_fault %}
-  <p class="error">{{ copasi_fault }}</p>
-{% endif %}
-</tr>
-</table>
-
- </div>
-
-{% if warnings %}
-<div class="warnings">
-<a href="javascript:unhide('show_warnings');">Show warnings</a>
-<div id="show_warnings" class="unhidden">
-
-
-<textarea>
-{% for warning in warnings %}
-  {{ warning }}
-{% endfor %}
-</textarea>
-</div>
-</div>
-{% endif %}
-
-  </div>
-
-
-
-
-  <div class="span-12 last">
-
-
-
-
-
-
-
-
-<form action="" method="post" enctype="multipart/form-data">
-
-
-  <div class="queryform">
-
-<h3>Perform additional analysis</h3>
-
-{% if form.errors %}
-        <p class="error">
-            Please correct the error{{ form.errors|pluralize }} below.
-        </p>
-	<p>{{ form.errors }}</p>
-{% endif %}
-
-{% if error %}
-      {% for err in error %}
-        <p class="error">
-      	  {{ err }}
-        </p>
-      {% endfor %}
-
-{% endif %}
-{% if not kl_done %}
-  <div class="querysubform">
-         <h4><img style="float:left" src="{% static "sbmlmod/images/system-run-5.png" %}" alt="Run"/>&nbsp;Adjust global and/or kinetic law parameters</h4>
-         <div class="fieldWrapper">
-	  {{ form.subject.errors }}
-	   <label>Parameters:</label>
-           {{ form.global_parameters }}
-           <label for="id_global_parameters">Global</label>
-           {{ form.kinetic_law_parameters }}
-           <label for="id_kinetic_law_parameters">Kinetic law</label>
-	   </div>
-        <div class="fieldWrapper">
-	  {{ form.subject.errors }}
-	   <label for="id_parameter">Parameter:</label>
-	   {{ form.parameter }}</div>
-          <div class="fieldWrapper">
-	  {{ form.subject.errors }}
-           <label for="id_replace_or_scale">Replace or scale:</label>
-	   {% for radio in form.replace_or_scale %}
-             {{ radio }}
-	     {% endfor %}</div>
-         <div class="fieldWrapper">
-	  {{ form.subject.errors }}
-	   <label for="id_kl_merge_mode">Merge mode:</label>
-	   {{ form.kl_merge_mode }}</div>
-         {% csrf_token %}
-       <p class="right"><input type="submit" name="kinetic" value="Submit"></p>
-       <br/>
-       </div>
-{% endif %}
-{% if not b_done %}
-  <div class="querysubform">
-<h4><img style="float:left" src="{% static "sbmlmod/images/system-run-5.png" %}" alt="Run"/>&nbsp;Add kinetic law bounds</h4>
-{% csrf_token %}
-       <div class="fieldWrapper">
-         {{ form.subject.bounds_default }}
-         <label for="id_bounds_default">Bounds default value:</label>
-         {{ form.bounds_default }}
-       </div>
-       <div class="fieldWrapper">
-         {{ form.subject.merge_mode }}
-         <label for="id_b_merge_mode">Merge mode:</label>
-         {{ form.b_merge_mode }}
-       </div>
-	<p class="right"><input type="submit" name= "bounds" value="Submit"></p>
-    <br/>
-</div>
-{% endif %}
-{% if not s_done %}
-  <div class="querysubform">
-
-
-<h4><img style="float:left" src="{% static "sbmlmod/images/system-run-5.png" %}" alt="Run"/>&nbsp;Adjust initial species concentrations</h4>
-{% csrf_token %}
-	<p class="right"><input type="submit" name= "species" value="Submit"></p>
-    <br/>
-</div>
-{% endif %}
-
-{% if not copasi_done %}
-  <div class="querysubform">
-<h4><img style="float:left" src="{% static "sbmlmod/images/system-run-5.png" %}" alt="Run"/>&nbsp;Perform steady state analysis with COPASI</h4>
-{% csrf_token %}
-	<p class="right"><input type="submit" name= "copasi" value="Submit"></p>
-    <br/>
-</div>
-{% endif %}
-
-{% if copasi_done and s_done and b_done and kl_done and not copasi_fault %}
-<p class="success">All analyses have been completed.</p>
-{% elif copasi_done and s_done and b_done and kl_done and copasi_fault %}
-<p class="error">All analyses have been completed.</p>
-{% endif %}
-
-</div>
-    </form>
-
-</div>
+		</div>
+		</form>
+	</div>
 
 {% endblock %}

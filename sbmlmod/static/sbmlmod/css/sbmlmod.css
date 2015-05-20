@@ -1,60 +1,43 @@
-/* -----------------------------------------------------------------------
+/* Basics */
 
-
- Blueprint CSS Framework 1.0.1
- http://blueprintcss.org
-
-   * Copyright (c) 2007-Present. See LICENSE for more info.
-   * See README for instructions on how to use Blueprint.
-   * For credits and origins, see AUTHORS.
-   * This is a compressed file. See the sources in the 'src' directory.
-
------------------------------------------------------------------------ */
-
-/* reset.css */
-body, div, h1, h2, h3, h4 {
+body {
+	font-size: 10pt;
+	color: #222222;
+	background: #eeeeee;
+	font-family: sans-serif;
 	margin: 0;
 	padding: 0;
 }
 
-
-/* typography.css */
-body {
-	font-size: 10pt;
-	color: #222;
-	background: #eee;
-	font-family: sans-serif;
-}
-
-h1, h2, h3, h4 {
-	font-weight: normal;
-	color: #111;
+div {
+	margin: 0;
+	padding: 0;
 }
 
 h1 {
-	font-size: 3em;
-	line-height: 1;
-	margin-bottom: 0.5em;
-	font-weight: bold;
-}
-
-h2 {
-	font-size: 2em;
-	margin-bottom: 0.75em;
-	font-weight: bold;
-}
-
-h3 {
+	margin: 0;
+	padding: 0;
 	font-size: 1.5em;
-	line-height: 1;
+	line-height: 1.25;
 	margin-bottom: 1em;
 	font-weight: bold;
 }
 
-h4 {
+h2 {
+	margin: 0;
+	padding: 0;
 	font-size: 1.2em;
 	line-height: 1.25;
 	margin-bottom: 1.25em;
+	font-weight: bold;
+}
+
+h3 {
+	margin: 0;
+	padding: 0;
+	font-size: 1em;
+	line-height: 1;
+	margin-bottom: 1em;
 	font-weight: bold;
 }
 
@@ -66,17 +49,8 @@ h4 {
 	float: right;
 }
 
-a:focus, a:hover {
-	color: #09f;
-}
 
-a {
-	color: #06c;
-	text-decoration: underline;
-}
-
-
-/* forms.css */
+/* Forms */
 
 label {
 	font-weight: normal;
@@ -133,7 +107,7 @@ textarea {
 	text-align: left;
 }
 
-.span-8, .span-12, .span-16, .span-24 {
+.span-8, .span-12, .span-16 {
 	float: left;
 	margin-right: 10px;
 }
@@ -152,11 +126,6 @@ textarea {
 
 .span-16 {
 	width: 630px;
-}
-
-.span-24 {
-	width: 950px;
-	margin-right: 0;
 }
 
 
@@ -244,9 +213,6 @@ textarea {
 	padding-left: 1.7em;
 }
 
-.center {
-	text-align: center;
-}
 
 /* Menu bar */
 

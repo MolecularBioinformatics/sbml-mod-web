@@ -6,9 +6,7 @@
 	<li><a href="/sbmlmod/help/">Help</a></li>
 {% endblock %}
 
-
 {% block content %}
-
 	{% if not version %}
 	<div class="span-24">
 		<p class="error">Server is down. Please try again later.</p>
@@ -17,26 +15,24 @@
 	<form action="" method="post" enctype="multipart/form-data">
 	<div class="span-12">
 		<div class="queryform">
-			<h3>A. Input files</h3>
-			{% if error %}
+			<h1>A. Input files</h1>
 			{% for err in error %}
 			<div class="error">
 				{{ err }}
 			</div>
 			{% endfor %}
-			{% endif %}
 			{{ form.non_field_errors }}
 			<p>
-				{{ form.example_files }} <label for="id_example_files">Use example files</label>
+				{{ form.example_files }} <label for="id_example_files">Use example files <img src="{% static 'sbmlmod/images/help_16.png' %}" alt="help" /></label>
 			</p>
 			<fieldset>
-				<legend>SBML file</legend>
+				<legend>SBML file <img src="{% static 'sbmlmod/images/help_16.png' %}" alt="help" /></legend>
 				<p>
 					{{ form.sbml_file }}
 				</p>
 			</fieldset>
 			<fieldset>
-				<legend>Kinetic law data file</legend>
+				<legend>Kinetic law data file <img src="{% static 'sbmlmod/images/help_16.png' %}" alt="help" /></legend>
 				<p>
 					{{ form.kinetic_law_data_file }}
 				</p>
@@ -50,7 +46,7 @@
 				</p>
 			</fieldset>
 			<fieldset>
-				<legend>Species data file</legend>
+				<legend>Species data file <img src="{% static 'sbmlmod/images/help_16.png' %}" alt="help" /></legend>
 				<p>
 					{{ form.species_data_file }}
 				</p>
@@ -74,9 +70,9 @@
 
 	<div class="span-12 last">
 		<div class="queryform">
-			<h3>B. Choose analysis</h3>
+			<h1>B. Choose analysis</h1>
 			<fieldset>
-				<legend>Adjust parameters</legend>
+				<legend>Adjust parameters <img src="{% static 'sbmlmod/images/help_16.png' %}" alt="help" /></legend>
 				<p>
 					{{ form.global_parameters }} <label for="id_global_parameters">Global parameters</label>
 					{{ form.kinetic_law_parameters }} <label for="id_kinetic_law_parameters">Kinetic law parameters</label>
@@ -94,30 +90,34 @@
 				</p>
 				{% csrf_token %}
 				<p class="right">
-					<button type="submit" name="kinetic"><img style="float:left" src="{% static "sbmlmod/images/system-run-5.png" %}" alt="Run" /></button>
+					<button type="submit" name="kinetic"><img src="{% static 'sbmlmod/images/system-run-5.png' %}" alt="Run" /></button>
 				</p>
 			</fieldset>
 
 			<fieldset>
-				<legend>Add kinetic law bounds</legend>
-				<p>
-					<label for="id_bounds_default">Bounds default value:</label>
-					{{ form.bounds_default }}
-				</p>
-				<p>
-					<label for="id_b_merge_mode">Merge mode:</label>
-					{{ form.b_merge_mode }}
-				</p>
+				<legend>Add kinetic law bounds <img src="{% static 'sbmlmod/images/help_16.png' %}" alt="help" /></legend>
+				<table class="left">
+				<tr>
+					<td><label for="id_bounds_default">Bounds default value:</label></td>
+					<td>{{ form.bounds_default }}</td>
+					<td><img src="{% static 'sbmlmod/images/help_16.png' %}" alt="help" /></td>
+				</tr>
+				<tr>
+					<td><label for="id_b_merge_mode">Merge mode:</label></td>
+					<td>{{ form.b_merge_mode }}</td>
+					<td><img src="{% static 'sbmlmod/images/help_16.png' %}" alt="help" /></td>
+				</tr>
+				</table>
 				<p class="right">
-					<button type="submit" name="bounds"><img style="float:left" src="{% static "sbmlmod/images/system-run-5.png" %}" alt="Run" /></button>
+					<button type="submit" name="bounds"><img src="{% static 'sbmlmod/images/system-run-5.png' %}" alt="Run" /></button>
 				</p>
 			</fieldset>
 
 			<fieldset>
-				<legend>Adjust initial species concentrations</legend>
+				<legend>Adjust initial species concentrations <img src="{% static 'sbmlmod/images/help_16.png' %}" alt="help" /></legend>
 
 				<p class="right">
-					<button type="submit" name="species"><img style="float:left" src="{% static "sbmlmod/images/system-run-5.png" %}" alt="Run" /></button>
+					<button type="submit" name="species"><img src="{% static 'sbmlmod/images/system-run-5.png' %}" alt="Run" /></button>
 				</p>
 			</fieldset>
 		</div>
