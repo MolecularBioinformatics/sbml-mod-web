@@ -187,6 +187,7 @@ def __setup_session(request, form):
     submitted_input = {}
     # Get data from request object
     submitted_input['batch_mode'] = form.cleaned_data['batch_mode']
+    submitted_input['case_sensitive'] = form.cleaned_data['case_sensitive']
     submitted_input['kl_column'] = form.cleaned_data['kl_data_column']
     if not submitted_input['kl_column']:
         submitted_input['kl_column'] = 2

@@ -25,6 +25,7 @@ class SbmlEditForm(forms.Form):
     s_data_column = forms.IntegerField(widget=forms.NumberInput(attrs={'style': 'width:4em'}), initial=2,  required=False)
 
     batch_mode = forms.BooleanField(required=False)
+    case_sensitive = forms.BooleanField(required=False)
 
     # Kinetic law parameters
     global_parameters = forms.BooleanField(required=False)
