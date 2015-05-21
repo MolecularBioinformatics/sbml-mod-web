@@ -4,14 +4,7 @@
 <head>
 <title>SBMLmod {{ version }}</title>
 <link rel="stylesheet" type="text/css" href= "{% static 'sbmlmod/css/sbmlmod.css' %}">
-<script type="text/javascript">
-function toggleWarnings()
-{
-	var item = document.getElementById('show_warnings');
-	document.getElementById('warningsLink').innerHTML = (item.className=='hidden')?'Hide warnings':'Show warnings';
-	item.className = (item.className=='hidden')?'unhidden':'hidden';
-}
-</script>
+{% block in_head %}{% endblock %}
 </head>
 
 <body>
@@ -34,7 +27,10 @@ function toggleWarnings()
 	  </div>
 	  <div id="menu-bar-container">
           <ul id="menu-bar">
-            {% block menu-bar %}{% endblock %}
+          {% block menu-bar %}
+          	<li><a href="/sbmlmod/">Home</a></li>
+			<li><a href="/sbmlmod/help/">Help</a></li>
+          {% endblock %}
           </ul>
 	  </div>
 
