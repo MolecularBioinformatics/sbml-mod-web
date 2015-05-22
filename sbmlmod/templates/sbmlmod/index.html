@@ -3,22 +3,27 @@
 
 {% block in_head %}
 <script type="text/javascript">
+function toggleUseExampleFiles()
+{
+	x = document.getElementById("id_example_files").checked;
+	document.getElementById("id_sbml_file").disabled = x;
+	document.getElementById("id_batch_mode").disabled = x;
+	document.getElementById("id_kinetic_law_data_file").disabled = x;
+	document.getElementById("id_kl_data_column").disabled = x;
+	document.getElementById("id_kl_mapping_file").disabled = x;
+	document.getElementById("id_species_data_file").disabled = x;
+	document.getElementById("id_s_data_column").disabled = x;
+	document.getElementById("id_s_mapping_file").disabled = x;
+	document.getElementById("id_case_sensitive").disabled = x;
+}
 
 window.onload = function()
 {
-     document.getElementById("id_example_files").onchange = function()
-     {
-		 x = document.getElementById("id_example_files").checked
-         document.getElementById("id_sbml_file").disabled = x;
-         document.getElementById("id_batch_mode").disabled = x;
-         document.getElementById("id_kinetic_law_data_file").disabled = x;
-         document.getElementById("id_kl_data_column").disabled = x;
-         document.getElementById("id_kl_mapping_file").disabled = x;
-         document.getElementById("id_species_data_file").disabled = x;
-         document.getElementById("id_s_data_column").disabled = x;
-         document.getElementById("id_s_mapping_file").disabled = x;
-         document.getElementById("id_case_sensitive").disabled = x;
-     };
+	document.getElementById("id_example_files").onchange = toggleUseExampleFiles;
+	document.getElementById("resetbutton").onclick = function()
+	{
+		setTimeout(toggleUseExampleFiles, 20);
+	};
 };
 </script>
 {% endblock %}
@@ -45,10 +50,10 @@ window.onload = function()
 			{% endfor %}
 			{{ form.non_field_errors }}
 			<p>
-				{{ form.example_files }} <label for="id_example_files">Use example files <img src="{% static 'sbmlmod/images/help_16.png' %}" alt="help" /></label>
+				{{ form.example_files }} <label for="id_example_files">Use example files <a href="help?page=example_files"><img src="{% static 'sbmlmod/images/help_16.png' %}" alt="[help]" /></a></label>
 			</p>
 			<fieldset>
-				<legend>SBML file <img src="{% static 'sbmlmod/images/help_16.png' %}" alt="help" /></legend>
+				<legend>SBML file <a href="help?page=sbml_file"><img src="{% static 'sbmlmod/images/help_16.png' %}" alt="[help]" /></a></legend>
 				<p>
 					{{ form.sbml_file }}
 				</p>
@@ -57,7 +62,7 @@ window.onload = function()
 				</p>
 			</fieldset>
 			<fieldset>
-				<legend>Kinetic law data file <img src="{% static 'sbmlmod/images/help_16.png' %}" alt="help" /></legend>
+				<legend>Kinetic law data file <a href="help?page=kl_data_file"><img src="{% static 'sbmlmod/images/help_16.png' %}" alt="[help]" /></a></legend>
 				<p>
 					{{ form.kinetic_law_data_file }}
 				</p>
@@ -71,7 +76,7 @@ window.onload = function()
 				</p>
 			</fieldset>
 			<fieldset>
-				<legend>Species data file <img src="{% static 'sbmlmod/images/help_16.png' %}" alt="help" /></legend>
+				<legend>Species data file <a href="help?page=s_data_file"><img src="{% static 'sbmlmod/images/help_16.png' %}" alt="[help]" /></a></legend>
 				<p>
 					{{ form.species_data_file }}
 				</p>
@@ -85,10 +90,10 @@ window.onload = function()
 				</p>
 			</fieldset>
 			<p class="left">
-				{{ form.case_sensitive }} <label for="id_case_sensitive">Mappings are case sensitive <b>(not working, yet!)</b></label>
+				{{ form.case_sensitive }} <label for="id_case_sensitive">Mappings are case sensitive <a href="help?page=case_sensitive"><img src="{% static 'sbmlmod/images/help_16.png' %}" alt="[help]" /></a> <b>(not working, yet!)</b></label>
 			</p>
 			<p class="right">
-				<button type="reset">Reset</button>
+				<button type="reset" id="resetbutton">Reset</button>
 			</p>
 		</div>
 	</div>
