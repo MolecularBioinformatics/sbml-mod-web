@@ -186,14 +186,6 @@ def __read_example_files():
 def __setup_session(request, form):
     submitted_input = {}
     # Get data from request object
-    submitted_input['batch_mode'] = form.cleaned_data['batch_mode']
-    submitted_input['case_sensitive'] = form.cleaned_data['case_sensitive']
-    submitted_input['kl_column'] = form.cleaned_data['kl_data_column']
-    if not submitted_input['kl_column']:
-        submitted_input['kl_column'] = 2
-    submitted_input['s_column'] = form.cleaned_data['s_data_column']
-    if not submitted_input['s_column']:
-        submitted_input['s_column'] = 2
     submitted_input['global_parameters'] = form.cleaned_data['global_parameters']
     submitted_input['kinetic_law_parameters'] = form.cleaned_data['kinetic_law_parameters']
     submitted_input['kinetic_parameter'] = form.cleaned_data['parameter']
@@ -202,12 +194,24 @@ def __setup_session(request, form):
     submitted_input['kl_merge_mode'] = form.cleaned_data['kl_merge_mode']
     submitted_input['b_merge_mode'] = form.cleaned_data['b_merge_mode']
     if not form.cleaned_data['example_files']:
+        submitted_input['batch_mode'] = form.cleaned_data['batch_mode']
+        submitted_input['case_sensitive'] = form.cleaned_data['case_sensitive']
+        submitted_input['kl_column'] = form.cleaned_data['kl_data_column']
+        if not submitted_input['kl_column']:
+            submitted_input['kl_column'] = 2
+        submitted_input['s_column'] = form.cleaned_data['s_data_column']
+        if not submitted_input['s_column']:
+            submitted_input['s_column'] = 2
         submitted_input['sbml_file'] = request.FILES.get('sbml_file', StringIO.StringIO()).read()
         submitted_input['kl_mapping_file'] = request.FILES.get('kl_mapping_file', StringIO.StringIO()).read()
         submitted_input['s_mapping_file'] = request.FILES.get('s_mapping_file', StringIO.StringIO()).read()
         submitted_input['kinetic_law_data_file'] = request.FILES.get('kinetic_law_data_file', StringIO.StringIO()).read()
         submitted_input['species_data_file'] = request.FILES.get('species_data_file', StringIO.StringIO()).read()
     else:
+        submitted_input['batch_mode'] = False
+        submitted_input['case_sensitive'] = True
+        submitted_input['kl_column'] = 2
+        submitted_input['s_column'] = 2
         sbml_file, mapping_file, kinetic_law_data_file, species_data_file = __read_example_files()
         submitted_input['sbml_file'] = sbml_file
         submitted_input['kl_mapping_file'] = mapping_file
@@ -282,7 +286,7 @@ def __kinetic_law_parameters(request, error, initial_model=True):
         error.append('Choose one or both of Global parameters or Kinetic law parameters.')
     if kinetic_law_parameters and kinetic_parameter == '':
         result_ok = False
-        error.append('Parameter must be given when Kinetic law parameters is  selected.')
+        error.append('Parameter must be given when Kinetic law parameters is selected.')
 
     # Choose action
     response = None
@@ -606,7 +610,7 @@ def help(request):
         version = client.service.GetVersion()
     except URLError:
         version = ''
-    context = {'version': version}
+    context = {'version': version, 'page': request.GET.get('page', 'all')}
     return render(request, 'sbmlmod/help.html', context)
 
 def webservice(request):
