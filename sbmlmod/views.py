@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
+from django.db.utils import OperationalError
 from .forms import SbmlModForm, SbmlModResultForm
 from .models import Wsdl
 
@@ -27,8 +28,11 @@ MAPPING_FILE = os.path.join(PATH, 'testfiles/mapping.txt')
 KINETIC_LAW_DATA_FILE = os.path.join(PATH, 'testfiles/kinetic_law_data.csv')
 SPECIES_DATA_FILE = os.path.join(PATH, 'testfiles/species_data.csv')
 
-wsurl = Wsdl.objects.get(wsdl_name='SBMLmod').wsdl_url
-client = Client(wsurl, cache=None)
+try:
+	wsurl = Wsdl.objects.get(wsdl_name='SBMLEdit').wsdl_url
+	client = Client(wsurl, cache=None)
+except OperationalError:
+	pass
 
 # WS calls
 
