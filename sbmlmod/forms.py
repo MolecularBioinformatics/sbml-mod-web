@@ -12,7 +12,7 @@ MODES = (('MAX', 'Max'),
          )
 
 
-class SbmlEditForm(forms.Form):
+class SbmlModForm(forms.Form):
     example_files = forms.BooleanField(required=False)
     required_css_class = 'alert'
     # Files
@@ -40,12 +40,12 @@ class SbmlEditForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         merge_modes = kwargs.pop('merge_modes', None)
-        super(SbmlEditForm, self).__init__(*args, **kwargs)
+        super(SbmlModForm, self).__init__(*args, **kwargs)
         if merge_modes:
             self.fields['kl_merge_mode'].choices = merge_modes
             self.fields['b_merge_mode'].choices = merge_modes
 
-class SbmlEditResultForm(forms.Form):
+class SbmlModResultForm(forms.Form):
     # Kinetic law parameters
     global_parameters = forms.BooleanField(required=False)
     kinetic_law_parameters = forms.BooleanField(required=False)
@@ -59,7 +59,7 @@ class SbmlEditResultForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         merge_modes = kwargs.pop('merge_modes', None)
-        super(SbmlEditResultForm, self).__init__(*args, **kwargs)
+        super(SbmlModResultForm, self).__init__(*args, **kwargs)
         if merge_modes:
             self.fields['kl_merge_mode'].choices = merge_modes
             self.fields['b_merge_mode'].choices = merge_modes

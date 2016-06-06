@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
-from .forms import SbmlEditForm, SbmlEditResultForm
+from .forms import SbmlModForm, SbmlModResultForm
 from .models import Wsdl
 
 import os
@@ -27,7 +27,7 @@ MAPPING_FILE = os.path.join(PATH, 'testfiles/mapping.txt')
 KINETIC_LAW_DATA_FILE = os.path.join(PATH, 'testfiles/kinetic_law_data.csv')
 SPECIES_DATA_FILE = os.path.join(PATH, 'testfiles/species_data.csv')
 
-wsurl = Wsdl.objects.get(wsdl_name='SBMLEdit').wsdl_url
+wsurl = Wsdl.objects.get(wsdl_name='SBMLmod').wsdl_url
 client = Client(wsurl, cache=None)
 
 # WS calls
@@ -496,7 +496,7 @@ def __copasi(request, error):
 def index(request):
     error = []
     if request.method == 'POST':
-        form = SbmlEditForm(request.POST, request.FILES)
+        form = SbmlModForm(request.POST, request.FILES)
         result_ok = False
         if form.is_valid():
             # Setup session
@@ -535,7 +535,7 @@ def index(request):
         for n in client.factory.create('MergeModeType'):
              merge_modes.append((n[0], n[0].title()))
         merge_modes = tuple(merge_modes)
-        form = SbmlEditForm(merge_modes=merge_modes)
+        form = SbmlModForm(merge_modes=merge_modes)
 
     try:
         version = client.service.GetVersion()
@@ -549,7 +549,7 @@ def index(request):
 def results(request):
     error = []
     if request.method == 'POST':
-        form = SbmlEditResultForm(request.POST)
+        form = SbmlModResultForm(request.POST)
         result_ok = False
         if form.is_valid():
             # Setup session
@@ -586,7 +586,7 @@ def results(request):
         for n in client.factory.create('MergeModeType'):
              merge_modes.append((n[0], n[0].title()))
         merge_modes = tuple(merge_modes)
-        form = SbmlEditResultForm(merge_modes=merge_modes)
+        form = SbmlModResultForm(merge_modes=merge_modes)
     try:
         version = client.service.GetVersion()
     except URLError:
