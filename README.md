@@ -7,7 +7,7 @@ Dependencies
 ------------
 
  - Python 2 >= 2.7.4 (no Python 3 support!)
- - Django from 1.6.0 through 1.8.x (not 1.9!)
+ - Django >= 1.7
  - Suds 0.4
  - sqlparse >= 1.0
 
@@ -16,7 +16,7 @@ Configuration
 
 Initialize the database: `python manage.py migrate`
 
-**A superuser must be created!**
+Create a superuser: `python manage.py createsuperuser`
 
 Run server
 ----------
