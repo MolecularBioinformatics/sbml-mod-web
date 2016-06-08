@@ -97,9 +97,6 @@ textarea {
 	padding: 5px;
 }
 
-
-/* grid.css */
-
 .container {
 	width: 950px;
 	margin: 0 auto;
@@ -107,7 +104,7 @@ textarea {
 	text-align: left;
 }
 
-.span-8, .span-12, .span-16 {
+.span-8, .span-12, .span-16, .span-24 {
 	float: left;
 	margin-right: 10px;
 }
@@ -128,8 +125,23 @@ textarea {
 	width: 630px;
 }
 
+.span-24 {
+	width: 950px;
+}
 
-/* PP stuff */
+.error {
+	padding: 0.8em;
+	margin-bottom: 1em;
+	border: 2px solid #ddd;
+	background: #fbe3e4;
+	color: #8a1f11;
+	border-color: #fbc2c4;
+	border-radius: 10px;
+}
+
+.error a {
+	color: #8a1f11;
+}
 
 .contentbox {
 	padding: 10px;
