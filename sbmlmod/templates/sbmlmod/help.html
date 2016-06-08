@@ -1,165 +1,156 @@
-{% extends "sbmlmod/base.html" %} {% load staticfiles %}
+{% extends "sbmlmod/base.html" %}
+{% load staticfiles %}
 
-{% block menu-bar %} 	<li><a href="/sbmlmod/">Home</a></li>
+{% block menu-bar %}
+ 	<li><a href="/sbmlmod/">Home</a></li>
 	<li class="selected"><a href="/sbmlmod/help/">Help</a></li>
 {% endblock %}
 
 {% block content %}
-	<div class="span-16">
-		<div class="textbox">
-			<h1>Help</h1>
-			<p>SBMLmod is a web application that allows integration of data such as for example gene expression data, proteomics data or metabolomics data into an SBML model. On this help page you may find a step by step guide of how to use the application, as well as explanation of file formats.</p>
+<div class="span-24">
+<div class="textbox">
 
-			<ol>
-				<li><a href="#stepbystep">Step by step guide</a></li>
-				<li><a href="#formats">File formats</a></li>
-			</ol>
+	<h1>Help</h1>
 
-			<hr />
+	<p>SBMLmod is a web application that allows integration of data such as for example gene expression data, proteomics data or metabolomics data into an SBML model. On this help page you may find a step by step guide of how to use the application, as well as explanation of file formats.</p>
 
-			<a name="stepbystep"></a><h1>Step by step guide</h1>
+	<p><a href="http://www.comp-sys-bio.org/CopasiWeb/CopasiWebUI/" target="_blank">Copasi web services</a></p>
 
-			<h2>Step 1 - A. Input files</h2>
+	<ol>
+		<li><a href="#stepbystep">Step by step guide</a></li>
+		<li><a href="#formats">File formats</a></li>
+	</ol>
 
-			<p>Locate the files containing the model, the data to be integrated into the model, as well as a mapping file. The mapping file may be ommitted if the identifiers of the data file match exactly to the identifiers of the reactions id's in the SBML model file.</p>
+	<a name="stepbystep"></a><h1>Step by step guide</h1>
 
-			<p>Example files are provided for testing out the application. To use the example files, tick the check box labelled "Use example files" and proceede to Step 2.</p>
+	<h2>Step 1 - A. Input files</h2>
 
-			<h2>Step 2 - B. Choose analysis</h2>
+	<p>Locate the files containing the model, the data to be integrated into the model, as well as a mapping file. The mapping file may be ommitted if the identifiers of the data file match exactly to the identifiers of the reactions id's in the SBML model file.</p>
 
-			<p>There are different ways data can be integrated into an SBML model. The different ways provided by this web application are described below.</p>
+	<p>Example files are provided for testing out the application. To use the example files, tick the check box labelled "Use example files" and proceede to Step 2.</p>
 
-			<h3>Adjust local and global parameters</h3>
+	<h2>Step 2 - B. Choose analysis</h2>
 
-			<p>In an SBML model, parameters are defined either globally or locally. Global parameters can be used by all reactions, while local parameters can only be used by the particular reactions it has been defined within.</p>
+	<p>There are different ways data can be integrated into an SBML model. The different ways provided by this web application are described below.</p>
 
-			<ol>
-				<li>Decide whether you want to adjust the global and/or local parameters by ticking the check boxes in front of the Global and Kinetic law labels respectively.</li>
+	<h3>Adjust local and global parameters</h3>
 
-				<li>If you have selected Kinetic law (local parameters) you must also provide information about which parameter you want to adjust. This must be specified in the text field labelled Parameter. Example: If one of the parameters describes enzyme concentration, and you have named the parameter E_T, then write E_T into the text field in SBMLmod. Each enzyme in the model may contain its own E_T parameter. SBMLmod will therefore attempt to find this parameter for each enzyme, and use the corresponding value from the data file to set the new value for E_T. It is therefore important that you spelled the parameter name exactly the same for each enzyme, when you built the model.</li>
+	<p>In an SBML model, parameters are defined either globally or locally. Global parameters can be used by all reactions, while local parameters can only be used by the particular reactions it has been defined within.</p>
 
-				<li>Both local and global parameters can be either replaced or scaled. Scaling the parameters means that the old parameter value will be multiplied by the respective value provided in the data file. This may be useful if the model contains for example liver specific activities for the enzymes, and then you have a data file with ratios of gene expression data from e.g. brain and liver. Replace means that the respective data value from the data file will be used to over-write the old value.</li>
+	<ol>
+		<li>Decide whether you want to adjust the global and/or local parameters by ticking the check boxes in front of the Global and Kinetic law labels respectively.</li>
 
-				<li>Finally, a merge mode must be selected. Merge mode is used if more than one entry in the data file maps to the same parameter entry in the model. If the data file contains gene expression data, there could be several genes that map to the same reaction, hence the value to represent the parameter must be chosen / calculated. <a href="#mergemode">See here for explanation of the Merge mode choices.</a></li>
+		<li>If you have selected Kinetic law (local parameters) you must also provide information about which parameter you want to adjust. This must be specified in the text field labelled Parameter. Example: If one of the parameters describes enzyme concentration, and you have named the parameter E_T, then write E_T into the text field in SBMLmod. Each enzyme in the model may contain its own E_T parameter. SBMLmod will therefore attempt to find this parameter for each enzyme, and use the corresponding value from the data file to set the new value for E_T. It is therefore important that you spelled the parameter name exactly the same for each enzyme, when you built the model.</li>
 
-				<li>Click the Submit button</li>
+		<li>Both local and global parameters can be either replaced or scaled. Scaling the parameters means that the old parameter value will be multiplied by the respective value provided in the data file. This may be useful if the model contains for example liver specific activities for the enzymes, and then you have a data file with ratios of gene expression data from e.g. brain and liver. Replace means that the respective data value from the data file will be used to over-write the old value.</li>
 
-				<li>The next page shows a list of the resulting SBML models with the new values integrated. You now have a few options to preceed:
-					<ul>
-						<li>Download the SBML files.</li>
+		<li>Finally, a merge mode must be selected. Merge mode is used if more than one entry in the data file maps to the same parameter entry in the model. If the data file contains gene expression data, there could be several genes that map to the same reaction, hence the value to represent the parameter must be chosen / calculated. <a href="#mergemode">See here for explanation of the Merge mode choices.</a></li>
 
-						<li>Insert initial concentration data with the SBML files. For this option, continue with the corresponding step by step guide.</li>
+		<li>Click the Submit button</li>
 
-						<li>Perform steady state analysis on the SBML files</li>
-					</ul>
-				</li>
-			</ol>
+		<li>The next page shows a list of the resulting SBML models with the new values integrated. You now have a few options to preceed:
+			<ul>
+				<li>Download the SBML files.</li>
 
-			<h3>Add upper and lower bounds to reactions</h3>
+				<li>Insert initial concentration data with the SBML files. For this option, continue with the corresponding step by step guide.</li>
 
-			<p>Upper and lower bounds are typically set in large scale models, such as genome scale models, before performing e.g. flux balance analysis. The upper and lower bounds may be set to a default value that is the same for all of the reactions in the model, or they may be set according to some data values, e.g. gene expression values. Generally upper bounds will be set to the value from the data file, or the default value. The lower bounds = -upper bounds for reversible reactions, and is set to 0 for irreversible reactions.</p>
+				<li>Perform steady state analysis on the SBML files</li>
+			</ul>
+		</li>
+	</ol>
 
-			<ol>
-				<li>Set a default value. If a data file has been supplied, then SBMLmod will attempt to set the corresponding value from the data file to each enzyme/reaction in the model. If data entries are missing, the default value will be used instead. In case no data file has been supplied, the default value will be inserted into all of the reactions.</li>
+	<h3>Add upper and lower bounds to reactions</h3>
 
-				<li>Set the Merge mode. Merge mode is used if more than one entry in the data file maps to the same parameter entry in the model. If the data file contains gene expression data, there could be several genes that map to the same reaction, hence the value to represent the parameter must be chosen / calculated. <a href="#mergemode">See here for explanation of the Merge mode choices.</a></li>
+	<p>Upper and lower bounds are typically set in large scale models, such as genome scale models, before performing e.g. flux balance analysis. The upper and lower bounds may be set to a default value that is the same for all of the reactions in the model, or they may be set according to some data values, e.g. gene expression values. Generally upper bounds will be set to the value from the data file, or the default value. The lower bounds = -upper bounds for reversible reactions, and is set to 0 for irreversible reactions.</p>
 
-				<li>Click the Submit button</li>
+	<ol>
+		<li>Set a default value. If a data file has been supplied, then SBMLmod will attempt to set the corresponding value from the data file to each enzyme/reaction in the model. If data entries are missing, the default value will be used instead. In case no data file has been supplied, the default value will be inserted into all of the reactions.</li>
 
-				<li>The next page shows a list of the resulting SBML models with the new values integrated. You now have a few options to preceed:
-					<ul>
-						<li>Download the SBML files.</li>
+		<li>Set the Merge mode. Merge mode is used if more than one entry in the data file maps to the same parameter entry in the model. If the data file contains gene expression data, there could be several genes that map to the same reaction, hence the value to represent the parameter must be chosen / calculated. <a href="#mergemode">See here for explanation of the Merge mode choices.</a></li>
 
-						<li>Insert initial concentration data with the SBML files. For this option, continue with the corresponding step by step guide.</li>
-					</ul>
-				</li>
-			</ol>
+		<li>Click the Submit button</li>
+
+		<li>The next page shows a list of the resulting SBML models with the new values integrated. You now have a few options to preceed:
+			<ul>
+				<li>Download the SBML files.</li>
+
+				<li>Insert initial concentration data with the SBML files. For this option, continue with the corresponding step by step guide.</li>
+			</ul>
+		</li>
+	</ol>
 
 
-			<h3>Set initial species concentrations</h3>
+	<h3>Set initial species concentrations</h3>
 
-			<p>Initial species concentrations may in some cases be set according to some external data, for example growth medium conditions. SBMLmod will use the mapping file to map the data entries to the species id's in the model file. No other parameters are needed for this.</p>
+	<p>Initial species concentrations may in some cases be set according to some external data, for example growth medium conditions. SBMLmod will use the mapping file to map the data entries to the species id's in the model file. No other parameters are needed for this.</p>
 
-			<ol>
-				<li>Click the Submit button</li>
+	<ol>
+		<li>Click the Submit button</li>
 
-				<li>The next page shows a list of the resulting SBML models with the new values integrated. You now have a few options to preceed:
-					<ul>
-					<li>Download the SBML files.</li>
+		<li>The next page shows a list of the resulting SBML models with the new values integrated. You now have a few options to preceed:
+			<ul>
+			<li>Download the SBML files.</li>
 
-					<li>Integrate additional data with the SBML files. For this option, continue with the corresponding step by step guide.</li>
-					</ul>
-				</li>
-			</ol>
+			<li>Integrate additional data with the SBML files. For this option, continue with the corresponding step by step guide.</li>
+			</ul>
+		</li>
+	</ol>
 
-			<hr />
+	<hr />
 
-			<a name="formats"></a><h1>File formats</h1>
-			<p>Details of the file formats used by the web applicaton are described below.</p>
+	<a name="formats"></a><h1>File formats</h1>
+	<p>Details of the file formats used by the web applicaton are described below.</p>
 
-			<a name="modelformat"></a><h2>Model file</h2>
+	<a name="modelformat"></a><h2>Model file</h2>
 
-			<p>The model must be provided in Systems Biology Markup Languange (SBML) format. For further information, please see:</p>
+	<p>The model must be provided in Systems Biology Markup Languange (SBML) format. For further information, please see:</p>
 
-			<p>Michael Hucka, Frank T. Bergmann, Stefan Hoops, Sarah M. Keating, Sven Sahle, James C. Schaff, Lucian P. Smith and Darren J. Wilkinson: The Systems Biology Markup Language (SBML): Language Specification for Level 3 Version 1 Core. Available from Nature Precedings (2010) <a href="http://dx.doi.org/10.1038/npre.2010.4959.1">DOI: 10.1038/npre.2010.4959.1</a></p>
+	<p>Michael Hucka, Frank T. Bergmann, Stefan Hoops, Sarah M. Keating, Sven Sahle, James C. Schaff, Lucian P. Smith and Darren J. Wilkinson: The Systems Biology Markup Language (SBML): Language Specification for Level 3 Version 1 Core. Available from Nature Precedings (2010) <a href="http://dx.doi.org/10.1038/npre.2010.4959.1">DOI: 10.1038/npre.2010.4959.1</a></p>
 
-			<a name="dataformat"></a><h2>Data file</h2>
+	<a name="dataformat"></a><h2>Data file</h2>
 
-			<p>The data file should be a tab delimited text file. One row for each data entry. The columns should contain the following information:</p>
+	<p>The data file should be a tab delimited text file. One row for each data entry. The columns should contain the following information:</p>
 
-			<dl>
-				<dt>Column 1:</dt>
-				<dd>Data identifiers, e.g. gene identifiers in case of gene expression data, or metabolic compound identifiers in case of initial concentration data.</dd>
-				<dt>Column 2 – n:</dt>
-				<dd>Data values, e.g. one column from each sample in the case of gene expression data.</dd>
-			</dl>
+	<dl>
+		<dt>Column 1:</dt>
+		<dd>Data identifiers, e.g. gene identifiers in case of gene expression data, or metabolic compound identifiers in case of initial concentration data.</dd>
+		<dt>Column 2 – n:</dt>
+		<dd>Data values, e.g. one column from each sample in the case of gene expression data.</dd>
+	</dl>
 
-			<a name="mappingformat"></a><h2>Mapping file</h2>
+	<a name="mappingformat"></a><h2>Mapping file</h2>
 
-			<p>The mapping file should be a tab delimited text file. One row for each combination of SBML model reaction identifier and data identifier. If several data indentifiers map to the same reaction identifier, then these can be listed on separate rows. The different entries will be merged according to the Merge Mode selected. The columns should contain the following information:</p>
+	<p>The mapping file should be a tab delimited text file. One row for each combination of SBML model reaction identifier and data identifier. If several data indentifiers map to the same reaction identifier, then these can be listed on separate rows. The different entries will be merged according to the Merge Mode selected. The columns should contain the following information:</p>
 
-			<dl>
-				<dt>Column 1:</dt>
-				<dd>SBML model identifiers, e.g. global parameter identifiers, reaction identifiers (for integration of local parameters), or species identifiers, depending on which method is used for the integration.</dd>
-				<dt>Column 2:</dt>
-				<dd>Data identifiers. These identifiers must match exactly the identifiers in Column 1 of the file.</dd>
-				<dt>Column 3:</dt>
-				<dd>Key words COMPLEX and/or ISO as annotation for proteins that are either isoforms or part of a complex. This is column is only needed if Merge Mode = E-flux is selected.</dd>
-			</dl>
+	<dl>
+		<dt>Column 1:</dt>
+		<dd>SBML model identifiers, e.g. global parameter identifiers, reaction identifiers (for integration of local parameters), or species identifiers, depending on which method is used for the integration.</dd>
+		<dt>Column 2:</dt>
+		<dd>Data identifiers. These identifiers must match exactly the identifiers in Column 1 of the file.</dd>
+		<dt>Column 3:</dt>
+		<dd>Key words COMPLEX and/or ISO as annotation for proteins that are either isoforms or part of a complex. This is column is only needed if Merge Mode = E-flux is selected.</dd>
+	</dl>
 
-			<hr />
+	<hr />
 
-			<a name="mergemode"></a><h1>Merge modes</h1>
+	<a name="mergemode"></a><h1>Merge modes</h1>
 
-			<dl>
-				<dt>Max</dt>
-				<dd>Of the data entries that maps to a particular parameter, the one with the highest value is chosen to scale or replace the parameter value.</dd>
-				<dt>Min</dt>
-				<dd>Of the data entries that maps to a particular parameter, the one with the lowest value is chosen to scale or replace the parameter value.</dd>
-				<dt>Sum</dt>
-				<dd>The sum of the data entries that maps to a particular parameter, is chosen to scale or replace the parameter value.</dd>
-				<dt>Mean</dt>
-				<dd>The mean of the data entries that maps to a particular parameter, is chosen to scale or replace the parameter value.</dd>
-				<dt>Median</dt>
-				<dd>The median of the data entries that maps to a particular parameter, is chosen to scale or replace the parameter value.</dd>
-				<dt>E-flux</dt>
-				<dd>Integrates the value as a function of the gene expression. Iso-enzymes may be expressed in different tissues. They act individually, and should be represented by separate reactions. In genome scale models, however, these are often represented by one reaction. During the integration this can thus be solved by summing up the gene expression values for iso-enzymes that map to the same reaction. For enzyme complexes one may assume that one of the subunits have a regulatory role, and hence the amount of active enzyme is related to the availablility of this regulatory subunit. E-Flux therefore uses the gene with the lowest expression value to represent the activity of the enzyme complex. To use this method an additional column must be present in the mapping file. The additional column should annotate the genes belonging to an enzyme complex or are iso-enzymes.
-				</dd>
-			</dl>
-		</div>
-	</div>
-
-	<div class="span-8 last">
-		<div class="textbox">
-			<h1>About SBMLmod</h1>
-
-			<h2>Web service</h2>
-			<p><a href="/sbmlmod/webservice/">Documentation of the back-end web service operations</a></p>
-
-			<h2>Steady state analysis</h2>
-			<p><a href="http://www.comp-sys-bio.org/CopasiWeb/CopasiWebUI/" target="_blank">Copasi web services</a></p>
-
-		</div>
-	</div>
+	<dl>
+		<dt>Max</dt>
+		<dd>Of the data entries that maps to a particular parameter, the one with the highest value is chosen to scale or replace the parameter value.</dd>
+		<dt>Min</dt>
+		<dd>Of the data entries that maps to a particular parameter, the one with the lowest value is chosen to scale or replace the parameter value.</dd>
+		<dt>Sum</dt>
+		<dd>The sum of the data entries that maps to a particular parameter, is chosen to scale or replace the parameter value.</dd>
+		<dt>Mean</dt>
+		<dd>The mean of the data entries that maps to a particular parameter, is chosen to scale or replace the parameter value.</dd>
+		<dt>Median</dt>
+		<dd>The median of the data entries that maps to a particular parameter, is chosen to scale or replace the parameter value.</dd>
+		<dt>E-flux</dt>
+		<dd>Integrates the value as a function of the gene expression. Iso-enzymes may be expressed in different tissues. They act individually, and should be represented by separate reactions. In genome scale models, however, these are often represented by one reaction. During the integration this can thus be solved by summing up the gene expression values for iso-enzymes that map to the same reaction. For enzyme complexes one may assume that one of the subunits have a regulatory role, and hence the amount of active enzyme is related to the availablility of this regulatory subunit. E-Flux therefore uses the gene with the lowest expression value to represent the activity of the enzyme complex. To use this method an additional column must be present in the mapping file. The additional column should annotate the genes belonging to an enzyme complex or are iso-enzymes.
+		</dd>
+	</dl>
+</div>
+</div>
 
 {% endblock %}
