@@ -617,14 +617,6 @@ def help(request):
     context = {'version': version, 'page': request.GET.get('page', 'all')}
     return render(request, 'sbmlmod/help.html', context)
 
-def webservice(request):
-    try:
-        version = client.service.GetVersion()
-    except URLError:
-        version = ''
-    context = {'version': version}
-    return render(request, 'sbmlmod/webservice.html', context)
-
 def get_model(request, name):
     model = request.session['result_contents'][name]
     response = HttpResponse(model)
