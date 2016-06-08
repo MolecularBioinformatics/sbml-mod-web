@@ -30,7 +30,7 @@ class SbmlModForm(forms.Form):
     # Kinetic law parameters
     global_parameters = forms.BooleanField(required=False)
     kinetic_law_parameters = forms.BooleanField(required=False)
-    parameter = forms.CharField(required=False)
+    parameter = forms.CharField(required=False, widget=forms.TextInput(attrs={'placeholder': 'E_T for example files'}))
     replace_or_scale = forms.ChoiceField(choices=REPLACE_OR_SCALE, widget=forms.RadioSelect(), initial='replace')
 
     # Kinetic law bounds
@@ -49,7 +49,7 @@ class SbmlModResultForm(forms.Form):
     # Kinetic law parameters
     global_parameters = forms.BooleanField(required=False)
     kinetic_law_parameters = forms.BooleanField(required=False)
-    parameter = forms.CharField(required=False)
+    parameter = forms.CharField(required=False, widget=forms.TextInput(attrs={'placeholder': 'E_T for example files'}))
     replace_or_scale = forms.ChoiceField(choices=REPLACE_OR_SCALE, widget=forms.RadioSelect(), initial='replace', required=False)
 
     # Kinetic law bounds

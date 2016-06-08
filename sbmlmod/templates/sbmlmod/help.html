@@ -25,7 +25,7 @@
 		<li><a href="#formats">File formats</a></li>
 	</ol>
 
-	<a name="stepbystep"></a><h1>Step by step guide</h1>
+	<h1 id="stepbystep">Step by step guide</h1>
 
 	<h2>Step 1 - A. Input files</h2>
 
@@ -102,16 +102,16 @@
 
 	<hr />
 
-	<a name="formats"></a><h1>File formats</h1>
+	<h1 id="formats">File formats</h1>
 	<p>Details of the file formats used by the web applicaton are described below.</p>
 
-	<a name="modelformat"></a><h2>Model file</h2>
+	<h2 id="modelformat">Model file</h2>
 
 	<p>The model must be provided in Systems Biology Markup Languange (SBML) format. For further information, please see:</p>
 
 	<p>Michael Hucka, Frank T. Bergmann, Stefan Hoops, Sarah M. Keating, Sven Sahle, James C. Schaff, Lucian P. Smith and Darren J. Wilkinson: The Systems Biology Markup Language (SBML): Language Specification for Level 3 Version 1 Core. Available from Nature Precedings (2010) <a href="http://dx.doi.org/10.1038/npre.2010.4959.1">DOI: 10.1038/npre.2010.4959.1</a></p>
 
-	<a name="dataformat"></a><h2>Data file</h2>
+	<h2 id="dataformat">Data file</h2>
 
 	<p>The data file should be a tab delimited text file. One row for each data entry. The columns should contain the following information:</p>
 
@@ -122,7 +122,7 @@
 		<dd>Data values, e.g. one column from each sample in the case of gene expression data.</dd>
 	</dl>
 
-	<a name="mappingformat"></a><h2>Mapping file</h2>
+	<h2 id="mappingformat">Mapping file</h2>
 
 	<p>The mapping file should be a tab delimited text file. One row for each combination of SBML model reaction identifier and data identifier. If several data indentifiers map to the same reaction identifier, then these can be listed on separate rows. The different entries will be merged according to the Merge Mode selected. The columns should contain the following information:</p>
 
@@ -137,7 +137,7 @@
 
 	<hr />
 
-	<a name="mergemode"></a><h1>Merge modes</h1>
+	<h1 id="mergemode">Merge modes</h1>
 
 	<dl>
 		<dt>Max</dt>

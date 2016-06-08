@@ -6,23 +6,25 @@
 <fieldset id="field_kinetic">
 <legend>Adjust parameters <img src="{% static 'sbmlmod/images/help_16.png' %}" alt="help" /></legend>
 {% csrf_token %}
+<table>
+<tr>
+	<td>{{ form.global_parameters }} <label for="id_global_parameters">Global parameters</label></td>
+	<td>{{ form.replace_or_scale.0 }}</td>
+</tr>
+<tr>
+	<td>{{ form.kinetic_law_parameters }} <label for="id_kinetic_law_parameters">Kinetic law parameters</label></td>
+	<td>{{ form.replace_or_scale.1 }}</td>
+</tr>
+</table>
 <p>
-	{{ form.global_parameters }} <label for="id_global_parameters">Global parameters</label>
-	{{ form.kinetic_law_parameters }} <label for="id_kinetic_law_parameters">Kinetic law parameters</label>
-</p>
-<p>
-	<label for="id_parameter">Parameter:</label>
-	{{ form.parameter }} (E_T for example files)
-</p>
-<p>
-	{% for radio in form.replace_or_scale %}{{ radio }}{% endfor %}
+	<label for="id_parameter">Parameter to change:</label> {{ form.parameter }}
 </p>
 <p class="left">
 	Merge mode:
 	{{ form.kl_merge_mode }}
 </p>
 <p class="right">
-	<button type="submit" name="kinetic"><img src="{% static 'sbmlmod/images/system-run-5.png' %}" alt="Run" /></button>
+	<button type="submit" name="kinetic">▶ run task</button>
 </p>
 </fieldset>
 {% endblock %}
@@ -34,16 +36,14 @@
 	<tr>
 		<td><label for="id_bounds_default">Bounds default value:</label></td>
 		<td>{{ form.bounds_default }}</td>
-		<td><img src="{% static 'sbmlmod/images/help_16.png' %}" alt="help" /></td>
 	</tr>
 	<tr>
 		<td><label for="id_b_merge_mode">Merge mode:</label></td>
 		<td>{{ form.b_merge_mode }}</td>
-		<td><img src="{% static 'sbmlmod/images/help_16.png' %}" alt="help" /></td>
 	</tr>
 	</table>
 	<p class="right">
-		<button type="submit" name="bounds"><img src="{% static 'sbmlmod/images/system-run-5.png' %}" alt="Run" /></button>
+		<button type="submit" name="bounds">▶ run task</button>
 	</p>
 </fieldset>
 {% endblock %}
@@ -53,17 +53,20 @@
 	<legend>Adjust initial species concentrations <img src="{% static 'sbmlmod/images/help_16.png' %}" alt="help" /></legend>
 
 	<p class="right">
-		<button type="submit" name="species"><img src="{% static 'sbmlmod/images/system-run-5.png' %}" alt="Run" /></button>
+		<button type="submit" name="species">▶ run task</button>
 	</p>
 </fieldset>
 {% endblock %}
 
 {% block perform_steady_state %}
 <fieldset id="field_steady_state">
-	<legend>Perform steady state analysis with COPASI</legend>
+	<legend>Steady state analysis</legend>
+	<p class="left">
+		Perform a steady state analysis with COPASI
+	</p>
 
 	<p class="right">
-		<button type="submit" name="copasi"><img src="{% static 'sbmlmod/images/system-run-5.png' %}" alt="Run" /></button>
+		<button type="submit" name="copasi">▶ run task</button>
 	</p>
 </fieldset>
 {% endblock %}

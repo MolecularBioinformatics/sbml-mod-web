@@ -42,6 +42,8 @@ window.onload = function()
 	{
 		setTimeout(updateUseability, 20);
 	};
+
+	updateUseability();
 };
 </script>
 {% endblock %}
@@ -68,51 +70,57 @@ window.onload = function()
 			{% endfor %}
 			{{ form.non_field_errors }}
 			<fieldset>
-				<legend>SBML file <a href="help?page=sbml_file"><img src="{% static 'sbmlmod/images/help_16.png' %}" alt="[help]" /></a></legend>
+				<legend>SBML file <a href="help?page=sbml_file"><img src="{% static 'sbmlmod/images/help.png' %}" alt="[help]" /></a></legend>
 				<p>
 					{{ form.sbml_file }}
 				</p>
 			</fieldset>
 			<fieldset>
-				<legend>Kinetic law data file <a href="help?page=kl_data_file"><img src="{% static 'sbmlmod/images/help_16.png' %}" alt="[help]" /></a></legend>
-				<p>
-					{{ form.kinetic_law_data_file }}
-				</p>
-				<p>
-					<label for="id_kl_data_column">Data column in file:</label>
-					{{ form.kl_data_column }}
-				</p>
-				<p>
-					Mapping file:
-					{{ form.kl_mapping_file }}
-				</p>
+				<legend>Kinetic law data <a href="help?page=kl_data_file"><img src="{% static 'sbmlmod/images/help.png' %}" alt="[help]" /></a></legend>
+				<table>
+					<tr>
+						<td>Data file:</td>
+						<td>{{ form.kinetic_law_data_file }}</td>
+					</tr>
+					<tr>
+						<td><label for="id_kl_data_column">Data column to use:</label></td>
+						<td>{{ form.kl_data_column }}</td>
+					</tr>
+					<tr>
+						<td>Mapping file:</td>
+						<td>{{ form.kl_mapping_file }}</td>
+					</tr>
+				</table>
 			</fieldset>
 			<fieldset>
-				<legend>Species data file <a href="help?page=s_data_file"><img src="{% static 'sbmlmod/images/help_16.png' %}" alt="[help]" /></a></legend>
-				<p>
-					{{ form.species_data_file }}
-				</p>
-				<p>
-					<label for="id_s_data_column">Data column in file:</label>
-					{{ form.s_data_column }}
-				</p>
-				<p>
-					Mapping file:
-					{{ form.s_mapping_file }}
-				</p>
+				<legend>Species data <a href="help?page=s_data_file"><img src="{% static 'sbmlmod/images/help.png' %}" alt="[help]" /></a></legend>
+				<table>
+					<tr>
+						<td>Data file:</td>
+						<td>{{ form.species_data_file }}</td>
+					</tr>
+					<tr>
+						<td><label for="id_s_data_column">Data column to use:</label></td>
+						<td>{{ form.s_data_column }}</td>
+					</tr>
+					<tr>
+						<td>Mapping file:</td>
+						<td>{{ form.s_mapping_file }}</td>
+					</tr>
+				</table>
 			</fieldset>
 
 			<fieldset>
-				<legend>Other options <a href="help?page=s_data_file"><img src="{% static 'sbmlmod/images/help_16.png' %}" alt="[help]" /></a></legend>
+				<legend>Other options <a href="help?page=s_data_file"><img src="{% static 'sbmlmod/images/help.png' %}" alt="[help]" /></a></legend>
 				<p>
-					{{ form.batch_mode }} <label for="id_batch_mode"><b>Batch mode</b> Create one model file for each data columns using all columns in data files except for the first column.</label>
+					{{ form.batch_mode }} <label for="id_batch_mode"><b>Batch mode</b> Create one model file for each data column using all columns in data files except for the first column.</label>
 				</p>
 				<p>
-					{{ form.example_files }} <label for="id_example_files"><b>Example files </b> Use example files to illustrate the functions of this service <a href="help?page=example_files"><img src="{% static 'sbmlmod/images/help_16.png' %}" alt="[help]" /></a></label>
+					{{ form.example_files }} <label for="id_example_files"><b>Example files </b> Use example files to illustrate the functions of this service</label>
 				</p>
 			</fieldset>
 			<!--<p class="left">
-				{{ form.case_sensitive }} <label for="id_case_sensitive">Mappings are case sensitive <a href="help?page=case_sensitive"><img src="{% static 'sbmlmod/images/help_16.png' %}" alt="[help]" /></a> <b>(not working, yet!)</b></label>
+				{{ form.case_sensitive }} <label for="id_case_sensitive">Mappings are case sensitive <a href="help?page=case_sensitive"><img src="{% static 'sbmlmod/images/help.png' %}" alt="[help]" /></a> <b>(not working, yet!)</b></label>
 			</p>-->
 			<p class="right">
 				<button type="reset" id="resetbutton">Reset</button>
