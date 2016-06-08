@@ -5,6 +5,7 @@
 {% block adjust_parameters %}
 <fieldset>
 <legend>Adjust parameters <img src="{% static 'sbmlmod/images/help_16.png' %}" alt="help" /></legend>
+{% csrf_token %}
 <p>
 	{{ form.global_parameters }} <label for="id_global_parameters">Global parameters</label>
 	{{ form.kinetic_law_parameters }} <label for="id_kinetic_law_parameters">Kinetic law parameters</label>
@@ -16,11 +17,10 @@
 <p>
 	{% for radio in form.replace_or_scale %}{{ radio }}{% endfor %}
 </p>
-<p>
+<p class="left">
 	Merge mode:
 	{{ form.kl_merge_mode }}
 </p>
-{% csrf_token %}
 <p class="right">
 	<button type="submit" name="kinetic"><img src="{% static 'sbmlmod/images/system-run-5.png' %}" alt="Run" /></button>
 </p>

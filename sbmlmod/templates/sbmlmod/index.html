@@ -5,21 +5,25 @@
 <script type="text/javascript">
 function toggleUseExampleFiles()
 {
-	x = document.getElementById("id_example_files").checked;
-	document.getElementById("id_sbml_file").disabled = x;
-	document.getElementById("id_batch_mode").disabled = x;
-	document.getElementById("id_kinetic_law_data_file").disabled = x;
-	document.getElementById("id_kl_data_column").disabled = x;
-	document.getElementById("id_kl_mapping_file").disabled = x;
-	document.getElementById("id_species_data_file").disabled = x;
-	document.getElementById("id_s_data_column").disabled = x;
-	document.getElementById("id_s_mapping_file").disabled = x;
-	document.getElementById("id_case_sensitive").disabled = x;
+	ex = document.getElementById("id_example_files").checked;
+	bm = document.getElementById("id_batch_mode").checked;
+
+	document.getElementById("id_sbml_file").disabled = ex;
+	document.getElementById("id_batch_mode").disabled = ex;
+	document.getElementById("id_kinetic_law_data_file").disabled = ex;
+	document.getElementById("id_kl_mapping_file").disabled = ex;
+	document.getElementById("id_species_data_file").disabled = ex;
+	document.getElementById("id_s_mapping_file").disabled = ex;
+	document.getElementById("id_case_sensitive").disabled = ex;
+
+	document.getElementById("id_kl_data_column").disabled = ex || bm;
+	document.getElementById("id_s_data_column").disabled = ex || bm;
 }
 
 window.onload = function()
 {
 	document.getElementById("id_example_files").onchange = toggleUseExampleFiles;
+	document.getElementById("id_batch_mode").onchange = toggleUseExampleFiles;
 	document.getElementById("resetbutton").onclick = function()
 	{
 		setTimeout(toggleUseExampleFiles, 20);
@@ -49,16 +53,10 @@ window.onload = function()
 			</div>
 			{% endfor %}
 			{{ form.non_field_errors }}
-			<p>
-				{{ form.example_files }} <label for="id_example_files">Use example files <a href="help?page=example_files"><img src="{% static 'sbmlmod/images/help_16.png' %}" alt="[help]" /></a></label>
-			</p>
 			<fieldset>
 				<legend>SBML file <a href="help?page=sbml_file"><img src="{% static 'sbmlmod/images/help_16.png' %}" alt="[help]" /></a></legend>
 				<p>
 					{{ form.sbml_file }}
-				</p>
-				<p>
-					{{ form.batch_mode }} <label for="id_batch_mode">Use multiple files (batch mode) <b>It is not possible, yet, to upload multiple files</b></label>
 				</p>
 			</fieldset>
 			<fieldset>
@@ -89,9 +87,19 @@ window.onload = function()
 					{{ form.s_mapping_file }}
 				</p>
 			</fieldset>
-			<p class="left">
+
+			<fieldset>
+				<legend>Other options <a href="help?page=s_data_file"><img src="{% static 'sbmlmod/images/help_16.png' %}" alt="[help]" /></a></legend>
+				<p>
+					{{ form.batch_mode }} <label for="id_batch_mode"><b>Batch mode</b> Create one model file for each data columns using all columns in data files except for the first column.</label>
+				</p>
+				<p>
+					{{ form.example_files }} <label for="id_example_files"><b>Example files </b> Use example files to illustrate the functions of this service <a href="help?page=example_files"><img src="{% static 'sbmlmod/images/help_16.png' %}" alt="[help]" /></a></label>
+				</p>
+			</fieldset>
+			<!--<p class="left">
 				{{ form.case_sensitive }} <label for="id_case_sensitive">Mappings are case sensitive <a href="help?page=case_sensitive"><img src="{% static 'sbmlmod/images/help_16.png' %}" alt="[help]" /></a> <b>(not working, yet!)</b></label>
-			</p>
+			</p>-->
 			<p class="right">
 				<button type="reset" id="resetbutton">Reset</button>
 			</p>
@@ -100,12 +108,14 @@ window.onload = function()
 
 	<div class="span-12 last">
 		<div class="queryform">
-			<h1>B. Choose task</h1>
+			<h1>B. Choose first task</h1>
 			{% block adjust_parameters %}{{ block.super }}{% endblock %}
 
 			{% block add_kinetic_law_bounds %}{{ block.super }}{% endblock %}
 
 			{% block adjust_initial_species_concentration %}{{ block.super }}{% endblock %}
+
+			{% block perform_steady_state %}{{ block.super }}{% endblock %}
 		</div>
 	</div>
 	</form>
