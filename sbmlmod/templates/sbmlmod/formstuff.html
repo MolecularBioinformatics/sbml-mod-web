@@ -3,7 +3,7 @@
 
 
 {% block adjust_parameters %}
-<fieldset>
+<fieldset id="field_kinetic">
 <legend>Adjust parameters <img src="{% static 'sbmlmod/images/help_16.png' %}" alt="help" /></legend>
 {% csrf_token %}
 <p>
@@ -28,7 +28,7 @@
 {% endblock %}
 
 {% block add_kinetic_law_bounds %}
-<fieldset>
+<fieldset id="field_bounds">
 	<legend>Add kinetic law bounds <img src="{% static 'sbmlmod/images/help_16.png' %}" alt="help" /></legend>
 	<table class="left">
 	<tr>
@@ -49,7 +49,7 @@
 {% endblock %}
 
 {% block adjust_initial_species_concentration %}
-<fieldset>
+<fieldset id="field_init_spec">
 	<legend>Adjust initial species concentrations <img src="{% static 'sbmlmod/images/help_16.png' %}" alt="help" /></legend>
 
 	<p class="right">
@@ -59,7 +59,7 @@
 {% endblock %}
 
 {% block perform_steady_state %}
-<fieldset>
+<fieldset id="field_steady_state">
 	<legend>Perform steady state analysis with COPASI</legend>
 
 	<p class="right">

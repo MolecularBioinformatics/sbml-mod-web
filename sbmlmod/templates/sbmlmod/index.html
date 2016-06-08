@@ -3,10 +3,14 @@
 
 {% block in_head %}
 <script type="text/javascript">
-function toggleUseExampleFiles()
+function updateUseability()
 {
 	ex = document.getElementById("id_example_files").checked;
-	bm = document.getElementById("id_batch_mode").checked;
+	bm = ex || document.getElementById("id_batch_mode").checked;
+
+	sbml = ex || document.getElementById("id_sbml_file").value != "";
+	kin = ex || (sbml && document.getElementById("id_kinetic_law_data_file").value != "" && document.getElementById("id_kl_mapping_file").value != "");
+	spec = ex || (sbml && document.getElementById("id_species_data_file").value != "" && document.getElementById("id_s_mapping_file").value != "");
 
 	document.getElementById("id_sbml_file").disabled = ex;
 	document.getElementById("id_batch_mode").disabled = ex;
@@ -14,19 +18,29 @@ function toggleUseExampleFiles()
 	document.getElementById("id_kl_mapping_file").disabled = ex;
 	document.getElementById("id_species_data_file").disabled = ex;
 	document.getElementById("id_s_mapping_file").disabled = ex;
-	document.getElementById("id_case_sensitive").disabled = ex;
 
-	document.getElementById("id_kl_data_column").disabled = ex || bm;
-	document.getElementById("id_s_data_column").disabled = ex || bm;
+	document.getElementById("id_kl_data_column").disabled = bm;
+	document.getElementById("id_s_data_column").disabled = bm;
+
+	document.getElementById("field_kinetic").disabled = !kin;
+	document.getElementById("field_bounds").disabled = !kin;
+	document.getElementById("field_init_spec").disabled = !spec;
+	document.getElementById("field_steady_state").disabled = !sbml;
 }
 
 window.onload = function()
 {
-	document.getElementById("id_example_files").onchange = toggleUseExampleFiles;
-	document.getElementById("id_batch_mode").onchange = toggleUseExampleFiles;
+	document.getElementById("id_example_files").onchange = updateUseability;
+	document.getElementById("id_batch_mode").onchange = updateUseability;
+	document.getElementById("id_sbml_file").onchange = updateUseability;
+	document.getElementById("id_kinetic_law_data_file").onchange = updateUseability;
+	document.getElementById("id_kl_mapping_file").onchange = updateUseability;
+	document.getElementById("id_species_data_file").onchange = updateUseability;
+	document.getElementById("id_s_mapping_file").onchange = updateUseability;
+
 	document.getElementById("resetbutton").onclick = function()
 	{
-		setTimeout(toggleUseExampleFiles, 20);
+		setTimeout(updateUseability, 20);
 	};
 };
 </script>
