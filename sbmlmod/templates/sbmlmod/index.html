@@ -9,8 +9,8 @@ function updateUseability()
 	bm = ex || document.getElementById("id_batch_mode").checked;
 
 	sbml = ex || document.getElementById("id_sbml_file").value != "";
-	kin = ex || (sbml && document.getElementById("id_kinetic_law_data_file").value != "" && document.getElementById("id_kl_mapping_file").value != "");
-	spec = ex || (sbml && document.getElementById("id_species_data_file").value != "" && document.getElementById("id_s_mapping_file").value != "");
+	kin = ex || sbml && document.getElementById("id_kinetic_law_data_file").value != "";
+	spec = ex || sbml && document.getElementById("id_species_data_file").value != "";
 
 	document.getElementById("id_sbml_file").disabled = ex;
 	document.getElementById("id_batch_mode").disabled = ex;
@@ -34,9 +34,7 @@ window.onload = function()
 	document.getElementById("id_batch_mode").onchange = updateUseability;
 	document.getElementById("id_sbml_file").onchange = updateUseability;
 	document.getElementById("id_kinetic_law_data_file").onchange = updateUseability;
-	document.getElementById("id_kl_mapping_file").onchange = updateUseability;
 	document.getElementById("id_species_data_file").onchange = updateUseability;
-	document.getElementById("id_s_mapping_file").onchange = updateUseability;
 
 	document.getElementById("resetbutton").onclick = function()
 	{
