@@ -551,9 +551,9 @@ def index(request):
                         warnings = []
                     request.session['result_names'] = []
                     request.session['result_contents'] = {}
-                    for _file in newsbml_files:
-                        name = _file.Name
-                        content = base64.b64decode(_file.SbmlModelFile)
+                    for sbmlfile in newsbml_files:
+                        name = sbmlfile.Name
+                        content = base64.b64decode(sbmlfile.SbmlModelFile)
                         request.session['result_names'].append(name)
                         request.session['result_contents'][name] = content
                     request.session['warnings'] = warnings
@@ -601,15 +601,14 @@ def results(request):
 
             if result_ok:
                 newsbml_files = response.SbmlModelFiles
-                warnings = response.Warnings
                 request.session['result_names'] = []
                 request.session['result_contents'] = {}
-                for file in newsbml_files:
-                    name = file.Name
-                    content = base64.b64decode(file.SbmlModelFile)
+                for sbmlfile in newsbml_files:
+                    name = sbmlfile.Name
+                    content = base64.b64decode(sbmlfile.SbmlModelFile)
                     request.session['result_names'].append(name)
                     request.session['result_contents'][name] = content
-                request.session['warnings'] = warnings
+                request.session['warnings'] = response.Warnings
     else:
         # Get enumerations for Merge modes
         merge_modes = []
