@@ -4,8 +4,7 @@
 
 {% block adjust_parameters %}
 <fieldset id="field_kinetic">
-<legend>Adjust parameters <img src="{% static 'sbmlmod/images/help_16.png' %}" alt="help" /></legend>
-{% csrf_token %}
+<legend>Adjust reaction parameters <a href="help/#reactions"><img src="{% static 'sbmlmod/images/help.png' %}" alt="help" /></a></legend>
 <table>
 <tr>
 	<td>{{ form.global_parameters }} <label for="id_global_parameters">Global parameters</label></td>
@@ -31,7 +30,7 @@
 
 {% block add_kinetic_law_bounds %}
 <fieldset id="field_bounds">
-	<legend>Add kinetic law bounds <img src="{% static 'sbmlmod/images/help_16.png' %}" alt="help" /></legend>
+	<legend><s>Add kinetic law bounds</s></legend>
 	<table class="left">
 	<tr>
 		<td><label for="id_bounds_default">Bounds default value:</label></td>
@@ -50,7 +49,7 @@
 
 {% block adjust_initial_species_concentration %}
 <fieldset id="field_init_spec">
-	<legend>Adjust initial species concentrations <img src="{% static 'sbmlmod/images/help_16.png' %}" alt="help" /></legend>
+	<legend>Set initial species concentrations <a href="help/#species"><img src="{% static 'sbmlmod/images/help.png' %}" alt="help" /></a></legend>
 
 	<p class="right">
 		<button type="submit" name="species">▶ run task</button>
@@ -60,7 +59,7 @@
 
 {% block perform_steady_state %}
 <fieldset id="field_steady_state">
-	<legend>Steady state analysis</legend>
+	<legend>Steady state analysis <a href="help/#copasi"><img src="{% static 'sbmlmod/images/help.png' %}" alt="help" /></a></legend>
 	<p class="left">
 		Perform a steady state analysis with COPASI
 	</p>

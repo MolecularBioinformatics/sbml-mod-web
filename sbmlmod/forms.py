@@ -25,18 +25,17 @@ class SbmlModForm(forms.Form):
     s_data_column = forms.IntegerField(widget=forms.NumberInput(attrs={'style': 'width:4em'}), initial=2,  required=False)
 
     batch_mode = forms.BooleanField(required=False)
-    case_sensitive = forms.BooleanField(required=False)
 
     # Kinetic law parameters
     global_parameters = forms.BooleanField(required=False)
     kinetic_law_parameters = forms.BooleanField(required=False)
     parameter = forms.CharField(required=False, widget=forms.TextInput(attrs={'placeholder': 'E_T for example files'}))
-    replace_or_scale = forms.ChoiceField(choices=REPLACE_OR_SCALE, widget=forms.RadioSelect(), initial='replace')
+    replace_or_scale = forms.ChoiceField(choices=REPLACE_OR_SCALE, widget=forms.RadioSelect(), initial='replace', required=False)
 
     # Kinetic law bounds
     bounds_default = forms.FloatField(widget=forms.NumberInput(attrs={'style': 'width:4em'}), required=False)
-    kl_merge_mode = forms.ChoiceField(choices=MODES)
-    b_merge_mode = forms.ChoiceField(choices=MODES)
+    kl_merge_mode = forms.ChoiceField(choices=MODES, required=False)
+    b_merge_mode = forms.ChoiceField(choices=MODES, required=False)
 
     def __init__(self, *args, **kwargs):
         merge_modes = kwargs.pop('merge_modes', None)

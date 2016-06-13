@@ -58,6 +58,7 @@ window.onload = function()
 	</div>
 	{% else %}
 	<form action="" method="post" enctype="multipart/form-data">
+	{% csrf_token %}
 	<div class="span-12">
 		<div class="queryform">
 			<h1>A. Input files</h1>
@@ -68,16 +69,16 @@ window.onload = function()
 			{% endfor %}
 			{{ form.non_field_errors }}
 			<fieldset>
-				<legend>SBML file <a href="help?page=sbml_file"><img src="{% static 'sbmlmod/images/help.png' %}" alt="[help]" /></a></legend>
+				<legend>SBML file <a href="help/#sbml"><img src="{% static 'sbmlmod/images/help.png' %}" alt="[help]" /></a></legend>
 				<p>
 					{{ form.sbml_file }}
 				</p>
 			</fieldset>
 			<fieldset>
-				<legend>Kinetic law data <a href="help?page=kl_data_file"><img src="{% static 'sbmlmod/images/help.png' %}" alt="[help]" /></a></legend>
+				<legend>Kinetic law data</legend>
 				<table>
 					<tr>
-						<td>Data file:</td>
+						<td>Data file: <a href="help/#datafile"><img src="{% static 'sbmlmod/images/help.png' %}" alt="[help]" /></a></td>
 						<td>{{ form.kinetic_law_data_file }}</td>
 					</tr>
 					<tr>
@@ -85,16 +86,16 @@ window.onload = function()
 						<td>{{ form.kl_data_column }}</td>
 					</tr>
 					<tr>
-						<td>Mapping file:</td>
+						<td>Mapping file: <a href="help/#mappingfile"><img src="{% static 'sbmlmod/images/help.png' %}" alt="[help]" /></a></td>
 						<td>{{ form.kl_mapping_file }}</td>
 					</tr>
 				</table>
 			</fieldset>
 			<fieldset>
-				<legend>Species data <a href="help?page=s_data_file"><img src="{% static 'sbmlmod/images/help.png' %}" alt="[help]" /></a></legend>
+				<legend>Species data</legend>
 				<table>
 					<tr>
-						<td>Data file:</td>
+						<td>Data file: <a href="help/#datafile"><img src="{% static 'sbmlmod/images/help.png' %}" alt="[help]" /></a></td>
 						<td>{{ form.species_data_file }}</td>
 					</tr>
 					<tr>
@@ -102,24 +103,21 @@ window.onload = function()
 						<td>{{ form.s_data_column }}</td>
 					</tr>
 					<tr>
-						<td>Mapping file:</td>
+						<td>Mapping file: <a href="help/#mappingfile"><img src="{% static 'sbmlmod/images/help.png' %}" alt="[help]" /></a></td>
 						<td>{{ form.s_mapping_file }}</td>
 					</tr>
 				</table>
 			</fieldset>
 
 			<fieldset>
-				<legend>Other options <a href="help?page=s_data_file"><img src="{% static 'sbmlmod/images/help.png' %}" alt="[help]" /></a></legend>
+				<legend>Other options</legend>
 				<p>
-					{{ form.batch_mode }} <label for="id_batch_mode"><b>Batch mode</b> Create one model file for each data column using all columns in data files except for the first column.</label>
+					{{ form.batch_mode }} <label for="id_batch_mode"><b>Batch mode</b></label> Create one model file for each data column using all columns in data files except for the first column.
 				</p>
 				<p>
-					{{ form.example_files }} <label for="id_example_files"><b>Example files </b> Use example files to illustrate the functions of this service</label>
+					{{ form.example_files }} <label for="id_example_files"><b>Example files</b></label> <a href="help/#examplefiles"><img src="{% static 'sbmlmod/images/help.png' %}" alt="[help]" /></a> Use example files to illustrate the functions of this service
 				</p>
 			</fieldset>
-			<!--<p class="left">
-				{{ form.case_sensitive }} <label for="id_case_sensitive">Mappings are case sensitive <a href="help?page=case_sensitive"><img src="{% static 'sbmlmod/images/help.png' %}" alt="[help]" /></a> <b>(not working, yet!)</b></label>
-			</p>-->
 			<p class="right">
 				<button type="reset" id="resetbutton">Reset</button>
 			</p>

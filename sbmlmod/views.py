@@ -199,7 +199,6 @@ def __setup_session(request, form):
     submitted_input['b_merge_mode'] = form.cleaned_data['b_merge_mode']
     if not form.cleaned_data['example_files']:
         submitted_input['batch_mode'] = form.cleaned_data['batch_mode']
-        submitted_input['case_sensitive'] = form.cleaned_data['case_sensitive']
         submitted_input['kl_column'] = form.cleaned_data['kl_data_column']
         if not submitted_input['kl_column']:
             submitted_input['kl_column'] = 2
@@ -213,7 +212,6 @@ def __setup_session(request, form):
         submitted_input['species_data_file'] = request.FILES.get('species_data_file', StringIO.StringIO()).read()
     else:
         submitted_input['batch_mode'] = False
-        submitted_input['case_sensitive'] = True
         submitted_input['kl_column'] = 2
         submitted_input['s_column'] = 2
         sbml_file, mapping_file, kinetic_law_data_file, species_data_file = __read_example_files()
@@ -540,7 +538,7 @@ def index(request):
             elif 'species' in request.POST:
                 request, response, result_ok, error = __species_concentrations(request, error, initial_model=True)
             elif 'copasi' in request.POST:
-                request, response, result_ok, error = __copasi(request, error)
+                request, response, result_ok, error = __copasi(request, error, initial_model=True)
 
             if result_ok:
                 if response is not None:
@@ -558,6 +556,10 @@ def index(request):
                         request.session['result_contents'][name] = content
                     request.session['warnings'] = warnings
                 return HttpResponseRedirect('/sbmlmod/results')
+        else:
+            error.append('The form is not valid!')
+            for k in form.errors:
+				error.append(k + ': ' + form.errors[k])
 
     else:
         # Get enumerations for Merge modes
