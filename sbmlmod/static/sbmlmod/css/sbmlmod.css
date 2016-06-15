@@ -237,3 +237,8 @@ textarea {
 	margin-right: 0.5em;
 	list-style: none;
 }
+
+
+:target {
+	color: #aa0000;
+}
