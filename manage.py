@@ -9,7 +9,6 @@ if __name__ == "__main__":
 
     if sys.argv[-1] == 'migrate':
 		if os.path.isfile('db.sqlite3'):
-			print('You tried to migrate although db.sqlite3 already exists.\nPlease delete db.sqlite3 before you migrate again.')
-			sys.exit()
+			os.remove('db.sqlite3')
 
     execute_from_command_line(sys.argv)
