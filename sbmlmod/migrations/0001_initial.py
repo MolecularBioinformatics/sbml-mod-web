@@ -10,5 +10,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-    migrations.RunSQL("""CREATE TABLE IF NOT EXISTS sbmlmod_wsdl (id INTEGER PRIMARY KEY, wsdl_name VARCHAR(30), wsdl_url VARCHAR(100)); INSERT INTO sbmlmod_wsdl (wsdl_name, wsdl_url) VALUES ('SBMLmod', 'http://127.0.0.1/~mathias/SBMLmod.wsdl'); INSERT INTO sbmlmod_wsdl (wsdl_name, wsdl_url) VALUES ('SteadyStateService', 'http://www.comp-sys-bio.org/CopasiWS/services/SteadyStateService?wsdl');""")
+    migrations.RunSQL("""CREATE TABLE IF NOT EXISTS sbmlmod_wsdl (id INTEGER PRIMARY KEY, wsdl_name VARCHAR(30), wsdl_url VARCHAR(100)); INSERT INTO sbmlmod_wsdl (wsdl_name, wsdl_url) VALUES ('SBMLmod', 'http://www.frunit.de/SBMLmod.wsdl'); INSERT INTO sbmlmod_wsdl (wsdl_name, wsdl_url) VALUES ('SteadyStateService', 'http://www.comp-sys-bio.org/CopasiWS/services/SteadyStateService?wsdl');""")
     ]
