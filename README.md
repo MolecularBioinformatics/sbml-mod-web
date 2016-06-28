@@ -16,7 +16,7 @@ Configuration
 
 Initialize the database: `python manage.py migrate`
 
-Create a superuser: `python manage.py createsuperuser`
+Optionally, create a superuser: `python manage.py createsuperuser`. For this step, the WSDL file must be available (that usually means that an internet connection must be established).
 
 Run server
 ----------
@@ -30,14 +30,14 @@ Note: the --insecure flag must be given to host static files.
 Edit WSDL URL
 -------------
 
-The WSDL URL defines the address of the backend. By default, it points to `http://localhost/SBMLmod.wsdl` **NOT YET!**, assuming that sbml_mod_ws is used locally. To change it, go to the admin page: `http://localhost:8000/admin/`
+The WSDL URL defines the address of the backend. By default, it points to `http://www.frunit.de/SBMLmod.wsdl` **For testing, at least until the UiT server is running**, assuming that sbml_mod_ws is used locally. To change it, go to the admin page: `http://localhost:8000/admin/`
 
 Log in with the credentials you gave while initializing the database. The server may need a restart after changing WSDL URLs.
 
 Access the portal
 -----------------
 
-Browse to `http://localhost:8000/sbmlmod`
+Browse to `http://localhost:8000/sbmlmod`. Of course, the backend (`sbml_mod_ws`) must be running under the address that is given in the WSDL file.
 
 Cleanup session files
 ---------------------
