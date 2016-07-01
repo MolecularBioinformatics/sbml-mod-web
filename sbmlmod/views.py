@@ -293,7 +293,7 @@ def __kinetic_law_parameters(request, error, initial_model=False):
     response = None
     if result_ok:
         if global_parameters and kinetic_law_parameters and replace_or_scale == 'replace':
-            response, fault = __scale_global_ws(sbml_file_list,
+            response, fault = __replace_global_ws(sbml_file_list,
                                         kl_mapping_file,
                                         kinetic_law_data_file,
                                         kl_column = kl_column,
@@ -316,7 +316,7 @@ def __kinetic_law_parameters(request, error, initial_model=False):
                                           merge_mode=kl_merge_mode)
 
         elif global_parameters and kinetic_law_parameters and replace_or_scale == 'scale':
-            response, fault = __replace_global_ws(sbml_file_list,
+            response, fault = __scale_global_ws(sbml_file_list,
                                          kl_mapping_file,
                                          kinetic_law_data_file,
                                          kl_column = kl_column,
@@ -339,7 +339,7 @@ def __kinetic_law_parameters(request, error, initial_model=False):
                                         merge_mode=kl_merge_mode)
 
         elif global_parameters and replace_or_scale == 'replace':
-            response, fault = __scale_global_ws(sbml_file_list,
+            response, fault = __replace_global_ws(sbml_file_list,
                                         kl_mapping_file,
                                         kinetic_law_data_file,
                                         kl_column = kl_column,
@@ -350,7 +350,7 @@ def __kinetic_law_parameters(request, error, initial_model=False):
                 error.append(fault)
 
         elif global_parameters and replace_or_scale == 'scale':
-            response, fault = __replace_global_ws(sbml_file_list,
+            response, fault = __scale_global_ws(sbml_file_list,
                                          kl_mapping_file,
                                          kinetic_law_data_file,
                                          kl_column = kl_column,
