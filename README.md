@@ -32,7 +32,7 @@ Edit WSDL URL
 
 The WSDL URL defines the address of the backend. By default, it points to `http://www.frunit.de/SBMLmod.wsdl` **For testing, at least until the UiT server is running**, assuming that sbml_mod_ws is used locally. To change it, go to the admin page: `http://localhost:8000/admin/`
 
-Log in with the credentials you gave while initializing the database. The server may need a restart after changing WSDL URLs.
+Log in with the superuser credentials you gave after initializing the database. The server may need a restart after changing WSDL URLs.
 
 Access the portal
 -----------------
