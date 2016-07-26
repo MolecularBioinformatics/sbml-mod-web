@@ -34,7 +34,7 @@
 
 	<h2>Step 1 – A. Input files</h2>
 
-	<p>Locate the files containing your model of choice as well as the data, which shall be automatically integrated into the model. Optionally you may upload a mapping file, which maps identifiers of the data file to identifiers of the given model. Note that a mapping file is obligatory, if the identifiers from your SBML model and data file differ, but refer to the same gene or reaction (e.g. TP53 and p53). Please refer to the section <a href="#formats">File formats</a> below for further details on file formats and options.</p>
+	<p>Locate the files containing your model of choice as well as the data, which shall be automatically integrated into the model. Optionally you may upload a mapping file, which maps identifiers of the data file to species or reaction IDs of the given model. Note that a mapping file is obligatory, if the IDs from your SBML model and the identifiers of your data file differ, but refer to the same gene or reaction (e.g. TP53 and p53). Please refer to the section <a href="#formats">File formats</a> below for further details on file formats and options.</p>
 
 	<p>Example files are provided to demonstrate the usage of the application. To use the example files, tick the check box labelled <b>Example files</b> in the <b>Other options</b> subpanel and proceed to Step 2. Details about the example files are described <a href="#examplefiles">here</a>.</p>
 
@@ -126,7 +126,7 @@
 
 	<dl>
 		<dt>Column 1:</dt>
-		<dd>SBML model identifiers, e.g. global parameter identifiers, reaction identifiers (for integration of local parameters), or species identifiers, depending on which method is used for the integration.</dd>
+		<dd>SBML model identifiers, e.g. global parameter identifiers, reaction IDs (for integration of local parameters), or species identifiers, depending on which method is used for the integration. Note that you can also mix the type of identifiers in one mapping file to change both global and local parameters in one run.</dd>
 		<dt>Column 2:</dt>
 		<dd>Data identifiers. These identifiers must match exactly the identifiers in Column 1 of the data file.</dd>
 		<dt>Column 3 (optional):</dt>

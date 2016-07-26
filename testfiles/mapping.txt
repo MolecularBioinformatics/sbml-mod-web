@@ -1,4 +1,3 @@
-Parameter	GeneSymbol
 AADAT_E_T_kat1	Ccbl1
 AADAT_E_T_kat2	Aadat
 AADAT_E_T_kat3	Ccbl2
@@ -12,3 +11,8 @@ KYNU_E_T	Kynu
 Transporter_E_T_Slc7a5	Slc7a5
 MAOA_E_T	Maoa
 MAOB_E_T	Maob
+R00677	Il4i1
+R00678_Tdo	Tdo2
+R00685	Ddc
+R00987	Kynu
+R01814_Tph1	Tph1
