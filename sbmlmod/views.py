@@ -267,7 +267,8 @@ def __kinetic_law_parameters(request, error, initial_model=False):
     else:
         sbml_file_list = []
         for name in request.session['result_names']:
-            sbml_file_list.append(request.session['result_contents'][name])
+            sbml_file_list.append(request.session['result_contents'][name].encode('utf8'))
+
     kl_mapping_file = request.session['submitted_input']['kl_mapping_file']
     kinetic_law_data_file = request.session['submitted_input']['kinetic_law_data_file']
     kl_column = request.session['submitted_input']['kl_column']
@@ -405,7 +406,8 @@ def __kinetic_law_bounds(request, error, initial_model=False):
     else:
         sbml_file_list = []
         for name in request.session['result_names']:
-            sbml_file_list.append(request.session['result_contents'][name])
+            sbml_file_list.append(request.session['result_contents'][name].encode('utf8'))
+
     kl_mapping_file = request.session['submitted_input']['kl_mapping_file']
     kinetic_law_data_file = request.session['submitted_input']['kinetic_law_data_file']
     kl_column = request.session['submitted_input']['kl_column']
@@ -448,7 +450,8 @@ def __species_concentrations(request, error, initial_model=False):
     else:
         sbml_file_list = []
         for name in request.session['result_names']:
-            sbml_file_list.append(request.session['result_contents'][name])
+            sbml_file_list.append(request.session['result_contents'][name].encode('utf8'))
+
     s_mapping_file = request.session['submitted_input']['s_mapping_file']
     species_data_file = request.session['submitted_input']['species_data_file']
     s_column = request.session['submitted_input']['s_column']
@@ -492,7 +495,7 @@ def __copasi(request, error, initial_model = False):
         sbml_file_list = []
         name_list = []
         for name in request.session['result_names']:
-            sbml_file_list.append(request.session['result_contents'][name])
+            sbml_file_list.append(request.session['result_contents'][name].encode('utf8'))
             name_list.append(name)
 
     # Check
@@ -559,7 +562,7 @@ def index(request):
         else:
             error.append('The form is not valid!')
             for k in form.errors:
-				error.append(k + ': ' + form.errors[k])
+                error.append(k + ': ' + form.errors[k])
 
     else:
         # Get enumerations for Merge modes
