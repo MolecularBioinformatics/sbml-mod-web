@@ -167,7 +167,7 @@ def __copasiws(models):
     parameters._outputFormat="text"
     results = []
     for model in models:
-        parameters.sbml = model
+        parameters.sbml = ''.join([repr(c)[1:-1] if ord(c) > 128 else c for c in model])
         try:
             response = client.service.runSimulator(parameters)
             results.append(response.result)
