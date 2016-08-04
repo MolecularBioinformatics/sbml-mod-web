@@ -211,7 +211,7 @@ def __setup_session(request, form):
         submitted_input['kinetic_law_data_file'] = request.FILES.get('kinetic_law_data_file', StringIO.StringIO()).read()
         submitted_input['species_data_file'] = request.FILES.get('species_data_file', StringIO.StringIO()).read()
     else:
-        submitted_input['batch_mode'] = False
+        submitted_input['batch_mode'] = form.cleaned_data['batch_mode']
         submitted_input['kl_column'] = 2
         submitted_input['s_column'] = 2
         sbml_file, mapping_file, kinetic_law_data_file, species_data_file = __read_example_files()
