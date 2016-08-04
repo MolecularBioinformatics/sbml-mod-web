@@ -6,14 +6,13 @@
 function updateUseability()
 {
 	ex = document.getElementById("id_example_files").checked;
-	bm = ex || document.getElementById("id_batch_mode").checked;
+	bm = document.getElementById("id_batch_mode").checked;
 
 	sbml = ex || document.getElementById("id_sbml_file").value != "";
 	kin = ex || sbml && document.getElementById("id_kinetic_law_data_file").value != "";
 	spec = ex || sbml && document.getElementById("id_species_data_file").value != "";
 
 	document.getElementById("id_sbml_file").disabled = ex;
-	document.getElementById("id_batch_mode").disabled = ex;
 	document.getElementById("id_kinetic_law_data_file").disabled = ex;
 	document.getElementById("id_kl_mapping_file").disabled = ex;
 	document.getElementById("id_species_data_file").disabled = ex;
@@ -23,7 +22,7 @@ function updateUseability()
 	document.getElementById("id_s_data_column").disabled = bm;
 
 	document.getElementById("field_kinetic").disabled = !kin;
-	document.getElementById("field_bounds").disabled = !kin;
+	//document.getElementById("field_bounds").disabled = !kin;
 	document.getElementById("field_init_spec").disabled = !spec;
 	document.getElementById("field_steady_state").disabled = !sbml;
 }
