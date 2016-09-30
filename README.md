@@ -3,13 +3,15 @@ SBMLmod web application
 
 This is the frontend for the backend sbml_mod_ws. The frontend in combination with the backend allows you to map gene expression (or equal) data to a given mathematical model to easily change model parameters.
 
+A running example of the frontend can be found here: <http://sbmlmod.uit.no>
+
 Dependencies
 ------------
 
  - Python 2 >= 2.7.4 (no Python 3 support!)
- - Django >= 1.7
- - Suds 0.4
- - sqlparse >= 1.0
+ - Django >= 1.7 `pip install django`
+ - Suds 0.4 `pip install suds`
+ - sqlparse >= 1.0 `pip install sqlparse`
 
 Configuration
 -------------
@@ -30,7 +32,7 @@ Note: the --insecure flag must be given to host static files.
 Edit WSDL URL
 -------------
 
-The WSDL URL defines the address of the backend. By default, it points to `http://www.frunit.de/SBMLmod.wsdl` **For testing, at least until the UiT server is running**, assuming that sbml_mod_ws is used locally. To change it, go to the admin page: `http://localhost:8000/admin/`
+The WSDL URL defines the address of the backend. By default, it points to `http://sbmlmod.uit.no/SBMLmod.wsdl` **For testing, at least until the UiT server is running**, assuming that sbml_mod_ws is used locally. To change it, go to the admin page: `http://localhost:8000/admin/`
 
 Log in with the superuser credentials you gave after initializing the database. The server may need a restart after changing WSDL URLs.
 
