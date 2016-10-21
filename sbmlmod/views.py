@@ -25,7 +25,7 @@ PATH = os.path.split(PATH)[0]
 
 SBML_FILE = os.path.join(PATH, 'testfiles/sbml_model.xml')
 MAPPING_FILE = os.path.join(PATH, 'testfiles/mapping.txt')
-REACTION_DATA_FILE = os.path.join(PATH, 'testfiles/reaction_data.csv')
+KINETIC_LAW_DATA_FILE = os.path.join(PATH, 'testfiles/reaction_data.csv')
 SPECIES_DATA_FILE = os.path.join(PATH, 'testfiles/species_data.csv')
 
 try:
@@ -183,9 +183,9 @@ def __copasiws(models):
 def __read_example_files():
     sbml_file = open(SBML_FILE).read()
     mapping_file = open(MAPPING_FILE).read()
-    reaction_data_file = open(REACTION_DATA_FILE).read()
+    kinetic_law_data_file = open(KINETIC_LAW_DATA_FILE).read()
     species_data_file = open(SPECIES_DATA_FILE).read()
-    return sbml_file, mapping_file, reaction_data_file, species_data_file
+    return sbml_file, mapping_file, kinetic_law_data_file, species_data_file
 
 def __setup_session(request, form):
     submitted_input = {}
@@ -208,7 +208,7 @@ def __setup_session(request, form):
         submitted_input['sbml_file'] = request.FILES.get('sbml_file', StringIO.StringIO()).read()
         submitted_input['kl_mapping_file'] = request.FILES.get('kl_mapping_file', StringIO.StringIO()).read()
         submitted_input['s_mapping_file'] = request.FILES.get('s_mapping_file', StringIO.StringIO()).read()
-        submitted_input['reaction_data_file'] = request.FILES.get('reaction_data_file', StringIO.StringIO()).read()
+        submitted_input['kinetic_law_data_file'] = request.FILES.get('kinetic_law_data_file', StringIO.StringIO()).read()
         submitted_input['species_data_file'] = request.FILES.get('species_data_file', StringIO.StringIO()).read()
     else:
         submitted_input['batch_mode'] = form.cleaned_data['batch_mode']
@@ -218,11 +218,11 @@ def __setup_session(request, form):
         submitted_input['s_column'] = form.cleaned_data['s_data_column']
         if not submitted_input['s_column']:
             submitted_input['s_column'] = 2
-        sbml_file, mapping_file, reaction_law_data_file, species_data_file = __read_example_files()
+        sbml_file, mapping_file, kinetic_law_data_file, species_data_file = __read_example_files()
         submitted_input['sbml_file'] = sbml_file
         submitted_input['kl_mapping_file'] = mapping_file
         submitted_input['s_mapping_file'] = ''
-        submitted_input['reaction_data_file'] = reaction_data_file
+        submitted_input['kinetic_law_data_file'] = kinetic_law_data_file
         submitted_input['species_data_file'] = species_data_file
 
     request.session['submitted_input'] = submitted_input
@@ -234,7 +234,7 @@ def __setup_session(request, form):
     request.session['s_done'] = False
     request.session['copasi_done'] = False
 
-    if not submitted_input['reaction_data_file']:
+    if not submitted_input['kinetic_law_data_file']:
         request.session['kl_done'] = True
         request.session['b_done'] = True
     if not submitted_input['species_data_file']:
@@ -274,7 +274,7 @@ def __kinetic_law_parameters(request, error, initial_model=False):
             sbml_file_list.append(request.session['result_contents'][name].encode('utf8'))
 
     kl_mapping_file = request.session['submitted_input']['kl_mapping_file']
-    reaction_data_file = request.session['submitted_input']['reaction_data_file']
+    kinetic_law_data_file = request.session['submitted_input']['kinetic_law_data_file']
     kl_column = request.session['submitted_input']['kl_column']
     batch_mode = request.session['submitted_input']['batch_mode']
     kl_merge_mode = request.session['submitted_input']['kl_merge_mode']
@@ -284,7 +284,7 @@ def __kinetic_law_parameters(request, error, initial_model=False):
     if sbml_file_list == ['']:
         result_ok = False
         error.append('SBML file must be given.')
-    if not reaction_data_file:
+    if not kinetic_law_data_file:
         result_ok = False
         error.append('Kinetic law data file must be given.')
     if not global_parameters and not kinetic_law_parameters:
@@ -300,7 +300,7 @@ def __kinetic_law_parameters(request, error, initial_model=False):
         if global_parameters and kinetic_law_parameters and replace_or_scale == 'replace':
             response, fault = __replace_global_ws(sbml_file_list,
                                         kl_mapping_file,
-                                        reaction_data_file,
+                                        kinetic_law_data_file,
                                         kl_column = kl_column,
                                         batch_mode=batch_mode,
                                         merge_mode=kl_merge_mode)
@@ -315,7 +315,7 @@ def __kinetic_law_parameters(request, error, initial_model=False):
                 response, fault = __replace_kinetic_ws(newsbml_files,
                                           kinetic_parameter,
                                           kl_mapping_file,
-                                          reaction_data_file,
+                                          kinetic_law_data_file,
                                           kl_column = kl_column,
                                           batch_mode=batch_mode,
                                           merge_mode=kl_merge_mode)
@@ -323,7 +323,7 @@ def __kinetic_law_parameters(request, error, initial_model=False):
         elif global_parameters and kinetic_law_parameters and replace_or_scale == 'scale':
             response, fault = __scale_global_ws(sbml_file_list,
                                          kl_mapping_file,
-                                         reaction_data_file,
+                                         kinetic_law_data_file,
                                          kl_column = kl_column,
                                          batch_mode=batch_mode,
                                          merge_mode=kl_merge_mode)
@@ -338,7 +338,7 @@ def __kinetic_law_parameters(request, error, initial_model=False):
                 response, fault = __scale_kinetic_ws(newsbml_files,
                                         kinetic_parameter,
                                         kl_mapping_file,
-                                        reaction_data_file,
+                                        kinetic_law_data_file,
                                         kl_column = kl_column,
                                         batch_mode=batch_mode,
                                         merge_mode=kl_merge_mode)
@@ -346,7 +346,7 @@ def __kinetic_law_parameters(request, error, initial_model=False):
         elif global_parameters and replace_or_scale == 'replace':
             response, fault = __replace_global_ws(sbml_file_list,
                                         kl_mapping_file,
-                                        reaction_data_file,
+                                        kinetic_law_data_file,
                                         kl_column = kl_column,
                                         batch_mode=batch_mode,
                                         merge_mode=kl_merge_mode)
@@ -357,7 +357,7 @@ def __kinetic_law_parameters(request, error, initial_model=False):
         elif global_parameters and replace_or_scale == 'scale':
             response, fault = __scale_global_ws(sbml_file_list,
                                          kl_mapping_file,
-                                         reaction_data_file,
+                                         kinetic_law_data_file,
                                          kl_column = kl_column,
                                          batch_mode=batch_mode,
                                          merge_mode=kl_merge_mode)
@@ -369,7 +369,7 @@ def __kinetic_law_parameters(request, error, initial_model=False):
             response, fault = __replace_kinetic_ws(sbml_file_list,
                                           kinetic_parameter,
                                           kl_mapping_file,
-                                          reaction_data_file,
+                                          kinetic_law_data_file,
                                           kl_column = kl_column,
                                           batch_mode=batch_mode,
                                           merge_mode=kl_merge_mode)
@@ -381,7 +381,7 @@ def __kinetic_law_parameters(request, error, initial_model=False):
             response, fault = __scale_kinetic_ws(sbml_file_list,
                                         kinetic_parameter,
                                         kl_mapping_file,
-                                        reaction_data_file,
+                                        kinetic_law_data_file,
                                         kl_column = kl_column,
                                         batch_mode=batch_mode,
                                         merge_mode=kl_merge_mode)
@@ -413,7 +413,7 @@ def __kinetic_law_bounds(request, error, initial_model=False):
             sbml_file_list.append(request.session['result_contents'][name].encode('utf8'))
 
     kl_mapping_file = request.session['submitted_input']['kl_mapping_file']
-    reaction_data_file = request.session['submitted_input']['reaction_data_file']
+    kinetic_law_data_file = request.session['submitted_input']['kinetic_law_data_file']
     kl_column = request.session['submitted_input']['kl_column']
     batch_mode = request.session['submitted_input']['batch_mode']
     bounds_default = request.session['submitted_input']['bounds_default']
@@ -434,7 +434,7 @@ def __kinetic_law_bounds(request, error, initial_model=False):
         response, fault = __add_bounds_ws(sbml_file_list,
                                     bounds_default,
                                     kl_mapping_file,
-                                    reaction_data_file,
+                                    kinetic_law_data_file,
                                     kl_column = kl_column,
                                     batch_mode=batch_mode,
                                     merge_mode=b_merge_mode)
