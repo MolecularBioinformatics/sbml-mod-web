@@ -23,18 +23,18 @@ Optionally, create a superuser: `python manage.py createsuperuser`. For this ste
 Run server
 ----------
 
-Default: `python manage.py runserver --insecure` (using port 8000)
+Default: `python manage.py runserver --insecure` (using port 8000, listening to localhost)
 
 With ip and port: `python manage.py runserver ip:port --insecure`
+
+If you want the frontend to listen to all IPs, use 0.0.0.0 as IP.
 
 Note: the --insecure flag must be given to host static files.
 
 Edit WSDL URL
 -------------
 
-The WSDL URL defines the address of the backend. By default, it points to `http://sbmlmod.uit.no/SBMLmod.wsdl` **For testing, at least until the UiT server is running**, assuming that sbml_mod_ws is used locally. To change it, go to the admin page: `http://localhost:8000/admin/`
-
-Log in with the superuser credentials you gave after initializing the database. The server may need a restart after changing WSDL URLs.
+The WSDL URL defines the address of the backend. By default, it points to `http://sbmlmod.uit.no/SBMLmod.wsdl`. To change it, go to the admin page: `http://localhost:8000/admin/`. Log in with the superuser credentials you gave after initializing the database (see configuration above). The server may need a restart after changing WSDL URL(s).
 
 Access the portal
 -----------------
@@ -44,4 +44,12 @@ Browse to `http://localhost:8000/sbmlmod`. Of course, the backend (`sbml_mod_ws`
 Cleanup session files
 ---------------------
 
-A cronjob should be set up to clean old session files.
+A cronjob should be set up to clean old session files. It may look like this:
+
+```
+*crontab*
+
+0 4 * * * username find /path/to/sbml-mod-web/sessionfiles -type f -mtime +7 -delete > /dev/null
+```
+
+This line entered in `/etc/crontab` (depending on your system) will every day at 4am delete all sessionfiles that were not touched for seven days.
