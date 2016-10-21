@@ -49,9 +49,12 @@
 
 	<ol>
 		<li>Choose global and/or local parameters by ticking the respective check boxes.</li>
-		<li>If you have selected <b>Local parameters</b> you have to provide information about which parameter you want to adjust as well. This has to be specified in the text field labelled <b>Parameter to change</b>. If you only want to change global parameters, the text field can be left empty.
+		<li>If you selected <b>Global parameters</b> the identifiers of the data file (or mapping file, if provided) will be matched with parameter identifiers annotated in the global <listOfParameters> section in the given SBML file. The associated values from the data file get assigned, either by replacing or scaling the existing value (see below for further descriptions).
+		<li>If you have selected <b>Local parameters</b> you have to provide information about which parameter you want to adjust as well. This has to be specified in the text field labelled <b>Parameter to change</b>.
 			<ul style="list-style-type: none;">
-				<li><i>Example:</i> If one of the parameters describes enzyme concentration, and you have named the parameter E_T, then type "E_T" into the text field next to <b>Parameter to change</b>. Each enzyme in the model may have its own E_T parameter. SBMLmod will therefore attempt to find this parameter for each enzyme, and use the corresponding value from the data file to set the new value for E_T. Hence, it is necessary to spell the parameter name exactly the same for each enzyme, when modifying the given model by using an additional data file.</li>
+				<li><i>Example:</i> If the parameter to change describes enzyme concentrations and is named E_T in each reaction, then type "E_T" into the text field next to <b>Parameter to change</b>.
+				SBMLmod will attempt to find exactly this parameter for each enzyme, and uses the corresponding value from the data file to set the new value for E_T per enzyme.
+				Hence, only the parameters will be changed that match exactly the user entry in <b>Parameter to change</b>. </li>
 			</ul>
 			</li>
 
@@ -118,8 +121,13 @@
 
 	<h1 id="examplefiles">Example files</h1>
 
-	<p>NEEEEEEEEEEEEEEED MOOOOOORE BRAINZZZZ!</p>
-
+	<p>Four files are provided as example files.</p>
+	<ol>
+		<li> <b>sbml_model.xml</b>: A valid SBML model.
+		<li> <b>mapping.txt</b>: A mapping file of reaction identifiers.
+		<li> <b>reaction_data.csv</b>: Data used for replacing (or scaling) reaction associated parameters in a global or local manner. Since the identifiers do not match the identifiers in the SBML model, the mapping file is used.
+		<li> <b>species_data.csv</b>: Data used for resetting the initial concentrations of certain species in the SBML model. The identifiers in the data file already match the identifiers in the SBML model, hence no mapping file is required.
+	</ol>
 	<hr />
 
 	<h1 id="mergemode">Merge modes</h1>
