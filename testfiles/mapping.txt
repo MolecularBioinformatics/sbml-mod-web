@@ -1,6 +1,5 @@
 AADAT_E_T_kat1	Ccbl1
 AADAT_E_T_kat2	Aadat
-AADAT_E_T_kat3	Ccbl2
 AANAT_E_T	Aanat
 AFMID_E_T	Afmid
 DDC_E_T	Ddc
