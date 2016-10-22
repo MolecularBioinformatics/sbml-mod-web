@@ -128,6 +128,9 @@
 		<li> <b>reaction_data.csv</b>: Data used for replacing (or scaling) reaction associated parameters in a global or local manner. Since the identifiers do not match the identifiers in the SBML model, the mapping file is used.
 		<li> <b>species_data.csv</b>: Data used for resetting the initial concentrations of certain species in the SBML model. The identifiers in the data file already match the identifiers in the SBML model, hence no mapping file is required.
 	</ol>
+	<b>Note:</b>
+	Since only one mapping file is used for test purposes, warning messages will be displayed, when testing the global or local <b>adjust reaction parameter</b> option. These warnings describe not matchable reaction identier.<br>
+	This is due to the fact that global and local identifiers may have not the same naming, that is, a mapping name for a global parameter may not be found when performing a local parameter adjustment and vice versa.
 	<hr />
 
 	<h1 id="mergemode">Merge modes</h1>
