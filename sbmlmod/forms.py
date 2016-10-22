@@ -8,7 +8,7 @@ MODES = (('MAX', 'Max'),
          ('SUM', 'Sum'),
          ('MEAN', 'Mean'),
          ('MEDIAN', 'Median'),
-         ('E-FLUX', 'E-FLUX'),
+         ('CUSTOM', 'Custom'),
          )
 
 
