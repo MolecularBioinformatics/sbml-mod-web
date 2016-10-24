@@ -129,8 +129,9 @@
 		<li> <b>species_data.csv</b>: Data used for resetting the initial concentrations of certain species in the SBML model. The identifiers in the data file already match the identifiers in the SBML model, hence no mapping file is required.
 	</ol>
 	<b>Note:</b>
-	Since only one mapping file is used for test purposes, warning messages will be displayed, when testing the global or local <b>adjust reaction parameter</b> option. These warnings describe not matchable reaction identier.<br>
-	This is due to the fact that global and local identifiers may have not the same naming, that is, a mapping name for a global parameter may not be found when performing a local parameter adjustment and vice versa.
+	To demonstrate warning feedback we used only <u>one</u> mapping file to match up identifier names between the model and the data files. Warning messages will be displayed, when testing either the global or the local <b>adjust reaction parameter</b> option. These warnings describe not matchable reaction identifiers.<br>
+	This is due to the fact that global and local identifiers may not have the same naming, that is, a mapping name for a global parameter may not be found when performing a local parameter adjustment and vice versa.<br>
+	We therefore recommend to use one specific mapping file for each parameter adjustment operation, though mapping information can be combined in one file as demonstrated.
 	<hr />
 
 	<h1 id="mergemode">Merge modes</h1>
