@@ -26,6 +26,16 @@
 	<button type="submit" name="kinetic">▶ run task</button>
 </p>
 </fieldset>
+<script type="text/javascript">
+document.getElementById("id_parameter").disabled = true;
+
+function updateParamToChange()
+{
+	document.getElementById('id_parameter').disabled = !document.getElementById('id_parameter').disabled;
+}
+
+document.getElementById("id_kinetic_law_parameters").onchange = updateParamToChange;
+</script>
 {% endblock %}
 
 {% block add_kinetic_law_bounds %}
