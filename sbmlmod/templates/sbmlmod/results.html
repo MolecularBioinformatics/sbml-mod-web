@@ -35,14 +35,24 @@ function toggleWarnings()
 				</tr>
 				{% for name in result_names %}
 				<tr>
-					<td><a href="/sbmlmod/results/{{ name }}"><img src="{% static 'sbmlmod/images/text-xml.png' %}" alt="Zip archive"/> {{ name }} model</a></td>
+					<td><a href="/sbmlmod/results/{{ name }}"><img src="{% static 'sbmlmod/images/text-xml.png' %}" alt="SBML model"/> {{ name }} model</a></td>
 					{% if copasi_results %}
-					<td><a href="/sbmlmod/results/simulations/{{ name }}"><img src="{% static 'sbmlmod/images/text-plain.png' %}" alt="Zip archive"/> {{ name }} simulation</a></td>
+					<td><a href="/sbmlmod/results/simulations/{{ name }}"><img src="{% static 'sbmlmod/images/text-plain.png' %}" alt="Raw Copasi output"/> {{ name }} simulation</a></td>
 					{% else %}
 					<td></td>
 					{% endif %}
 				</tr>
 				{% endfor %}
+				{% if copasi_results %}
+				<tr>
+					<td></td>
+					<td><a href="/sbmlmod/results/simulations/result_concentrations"><img src="{% static 'sbmlmod/images/text-plain.png' %}" alt="Concentrations table"/> Concentrations</a></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td><a href="/sbmlmod/results/simulations/result_fluxes"><img src="{% static 'sbmlmod/images/text-plain.png' %}" alt="Fluxes table"/> Fluxes</a></td>
+				</tr>
+				{% endif %}
 				<tr>
 					<td>
 						<a href="/sbmlmod/results/get_models_zipped/"><img style="float:left" src="{% static 'sbmlmod/images/application-zip.png' %}" alt="Zip archive"/> Zipped archive of models</a>

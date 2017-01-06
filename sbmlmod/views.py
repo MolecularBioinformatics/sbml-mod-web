@@ -15,6 +15,8 @@ import StringIO, codecs
 
 import inspect
 
+import pycopasi
+
 import logging
 logging.basicConfig(level=logging.INFO)
 logging.getLogger('suds.client').setLevel(logging.INFO)
@@ -286,112 +288,65 @@ def __kinetic_law_parameters(request, error, initial_model=False):
         error.append('SBML file must be given.')
     if not kinetic_law_data_file:
         result_ok = False
-        error.append('Kinetic law data file must be given.')
+        error.append('Reaction data file must be given.')
     if not global_parameters and not kinetic_law_parameters:
         result_ok = False
-        error.append('Choose one or both of Global parameters or Kinetic law parameters.')
+        error.append('Choose one or both of Global parameters or local parameters.')
     if kinetic_law_parameters and kinetic_parameter == '':
         result_ok = False
-        error.append('Parameter must be given when Kinetic law parameters is selected.')
+        error.append('Parameter to change must be given when local parameters is selected.')
 
     # Choose action
-    response = None
+    response = 0
     if result_ok:
-        if global_parameters and kinetic_law_parameters and replace_or_scale == 'replace':
-            response, fault = __replace_global_ws(sbml_file_list,
-                                        kl_mapping_file,
-                                        kinetic_law_data_file,
-                                        kl_column = kl_column,
-                                        batch_mode=batch_mode,
-                                        merge_mode=kl_merge_mode)
-            if fault:
-                result_ok = False
-                error.append(fault)
-            else:
-                newsbml_files = []
-                newsbml_files_e = response.SbmlModelFiles
-                for file in newsbml_files_e:
-                    newsbml_files.append(base64.b64decode(file.SbmlModelFile))
-                response, fault = __replace_kinetic_ws(newsbml_files,
-                                          kinetic_parameter,
-                                          kl_mapping_file,
-                                          kinetic_law_data_file,
-                                          kl_column = kl_column,
-                                          batch_mode=batch_mode,
-                                          merge_mode=kl_merge_mode)
-
-        elif global_parameters and kinetic_law_parameters and replace_or_scale == 'scale':
-            response, fault = __scale_global_ws(sbml_file_list,
-                                         kl_mapping_file,
-                                         kinetic_law_data_file,
-                                         kl_column = kl_column,
-                                         batch_mode=batch_mode,
-                                         merge_mode=kl_merge_mode)
-            if fault:
-                result_ok = False
-                error.append(fault)
-            else:
-                newsbml_files = []
-                newsbml_files_e = response.SbmlModelFiles
-                for file in newsbml_files_e:
-                    newsbml_files.append(base64.b64decode(file.SbmlModelFile))
-                response, fault = __scale_kinetic_ws(newsbml_files,
-                                        kinetic_parameter,
-                                        kl_mapping_file,
-                                        kinetic_law_data_file,
-                                        kl_column = kl_column,
-                                        batch_mode=batch_mode,
-                                        merge_mode=kl_merge_mode)
-
-        elif global_parameters and replace_or_scale == 'replace':
-            response, fault = __replace_global_ws(sbml_file_list,
-                                        kl_mapping_file,
-                                        kinetic_law_data_file,
-                                        kl_column = kl_column,
-                                        batch_mode=batch_mode,
-                                        merge_mode=kl_merge_mode)
-            if fault:
-                result_ok = False
-                error.append(fault)
-
-        elif global_parameters and replace_or_scale == 'scale':
-            response, fault = __scale_global_ws(sbml_file_list,
-                                         kl_mapping_file,
-                                         kinetic_law_data_file,
-                                         kl_column = kl_column,
-                                         batch_mode=batch_mode,
-                                         merge_mode=kl_merge_mode)
-            if fault:
-                result_ok = False
-                error.append(fault)
-
-        elif kinetic_law_parameters and replace_or_scale == 'replace':
-            response, fault = __replace_kinetic_ws(sbml_file_list,
-                                          kinetic_parameter,
-                                          kl_mapping_file,
-                                          kinetic_law_data_file,
-                                          kl_column = kl_column,
-                                          batch_mode=batch_mode,
-                                          merge_mode=kl_merge_mode)
-            if fault:
-                result_ok = False
-                error.append(fault)
-
-        elif kinetic_law_parameters and replace_or_scale == 'scale':
-            response, fault = __scale_kinetic_ws(sbml_file_list,
-                                        kinetic_parameter,
-                                        kl_mapping_file,
-                                        kinetic_law_data_file,
-                                        kl_column = kl_column,
-                                        batch_mode=batch_mode,
-                                        merge_mode=kl_merge_mode)
-            if fault:
-                result_ok = False
-                error.append(fault)
-
+        if replace_or_scale == 'replace':
+            func_global = __replace_global_ws
+            func_kinetic = __replace_kinetic_ws
         else:
+            func_global = __scale_global_ws
+            func_kinetic = __scale_kinetic_ws
+
+        fault = False
+
+        if global_parameters:
+            response, fault = func_global(sbml_file_list=sbml_file_list,
+                                        mapping_file=kl_mapping_file,
+                                        expression_file=kinetic_law_data_file,
+                                        kl_column=kl_column,
+                                        batch_mode=batch_mode,
+                                        merge_mode=kl_merge_mode)
+            if fault:
+                result_ok = False
+                error.append(fault)
+
+            with open('/home/mbo049/Desktop/after_global.txt', 'w') as f:
+                f.write(repr(response))
+
+        if not fault and kinetic_law_parameters:
+            if response:
+                sbml_file_list = []
+                for myfile in response.SbmlModelFiles:
+                    sbml_file_list.append(base64.b64decode(myfile.SbmlModelFile))
+
+            #batch_mode = batch_mode and not global_parameters
+
+            response, fault = func_kinetic(sbml_file_list=sbml_file_list,
+                                          parameter_id=kinetic_parameter,
+                                          mapping_file=kl_mapping_file,
+                                          expression_file=kinetic_law_data_file,
+                                          kl_column=kl_column,
+                                          batch_mode=batch_mode,
+                                          merge_mode=kl_merge_mode)
+            if fault:
+                result_ok = False
+                error.append(fault)
+
+            with open('/home/mbo049/Desktop/after_local.txt', 'w') as f:
+                f.write(repr(response))
+
+        if response == 0:
             result_ok = False
-            error.append('Choose one or both of Global parameters or Kinetic law parameters.')
+            error.append('Choose one or both of global parameters or local parameters.')
 
     if result_ok:
         request.session['kl_done'] = True
@@ -468,7 +423,7 @@ def __species_concentrations(request, error, initial_model=False):
         error.append('SBML file must be given.')
     if not species_data_file:
         result_ok = False
-        error.append('Species concentration data file must be given.')
+        error.append('Species data file must be given.')
 
     # Choose action
     response = None
@@ -517,6 +472,10 @@ def __copasi(request, error, initial_model = False):
         request.session['copasi_results'] = {}
         for name, content in zip(name_list, response):
             request.session['copasi_results'][name] = content
+
+        concentrations, fluxes = pycopasi.get_tables(response, name_list)
+        request.session['copasi_results']['result_concentrations'] = concentrations
+        request.session['copasi_results']['result_fluxes'] = fluxes
 
     request.session['copasi_done'] = True
 
