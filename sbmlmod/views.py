@@ -319,9 +319,6 @@ def __kinetic_law_parameters(request, error, initial_model=False):
                 result_ok = False
                 error.append(fault)
 
-            with open('/home/mbo049/Desktop/after_global.txt', 'w') as f:
-                f.write(repr(response))
-
         if not fault and kinetic_law_parameters:
             if response:
                 sbml_file_list = []
@@ -340,9 +337,6 @@ def __kinetic_law_parameters(request, error, initial_model=False):
             if fault:
                 result_ok = False
                 error.append(fault)
-
-            with open('/home/mbo049/Desktop/after_local.txt', 'w') as f:
-                f.write(repr(response))
 
         if response == 0:
             result_ok = False
