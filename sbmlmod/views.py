@@ -570,7 +570,10 @@ def results(request):
                     content = base64.b64decode(sbmlfile.SbmlModelFile)
                     request.session['result_names'].append(name)
                     request.session['result_contents'][name] = content
-                request.session['warnings'] = response.Warnings
+                try:
+                    request.session['warnings'] = response.Warnings
+                except AttributeError:
+                    request.session['warnings'] = []
     else:
         # Get enumerations for Merge modes
         merge_modes = []
