@@ -27,11 +27,11 @@
 </p>
 </fieldset>
 <script type="text/javascript">
-document.getElementById("id_parameter").disabled = true;
+document.getElementById("id_parameter").disabled = !document.getElementById('id_kinetic_law_parameters').checked;
 
 function updateParamToChange()
 {
-	document.getElementById('id_parameter').disabled = !document.getElementById('id_parameter').disabled;
+	document.getElementById('id_parameter').disabled = !document.getElementById('id_kinetic_law_parameters').checked;
 }
 
 document.getElementById("id_kinetic_law_parameters").onchange = updateParamToChange;
