@@ -19,10 +19,10 @@ class SbmlModForm(forms.Form):
     sbml_file = forms.FileField(required=False)
     kinetic_law_data_file = forms.FileField(required=False)
     kl_mapping_file = forms.FileField(required=False)
-    kl_data_column = forms.IntegerField(widget=forms.NumberInput(attrs={'style': 'width:4em'}), initial=2, required=False)
+    kl_data_column = forms.IntegerField(widget=forms.NumberInput(attrs={'style': 'width:4em'}), initial=2, min_value=1, required=False)
     species_data_file = forms.FileField(required=False)
     s_mapping_file = forms.FileField(required=False)
-    s_data_column = forms.IntegerField(widget=forms.NumberInput(attrs={'style': 'width:4em'}), initial=2,  required=False)
+    s_data_column = forms.IntegerField(widget=forms.NumberInput(attrs={'style': 'width:4em'}), initial=2, min_value=1,  required=False)
 
     batch_mode = forms.BooleanField(required=False)
 
