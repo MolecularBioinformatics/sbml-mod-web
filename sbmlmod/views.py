@@ -471,6 +471,13 @@ def __copasi(request, error, initial_model = False):
         request.session['copasi_results']['result_concentrations'] = concentrations
         request.session['copasi_results']['result_fluxes'] = fluxes
 
+        try:
+            image = pycopasi.scatterplot(concentrations, fluxes)
+        except:
+            pass
+        else:
+            request.session['copasi_results']['image'] = base64.b64encode(image)
+
     request.session['copasi_done'] = True
 
     return request, None, result_ok, error
@@ -619,6 +626,12 @@ def get_simulation(request, name):
     response = HttpResponse(simulation)
     response['Content-Disposition'] = 'attachment; filename=%s.txt' % name
     response['Content-Type'] = 'application/txt'
+    return response
+
+def get_image(request):
+    img = base64.b64decode(request.session['copasi_results']['image'])
+    response = HttpResponse(img)
+    response['Content-Type'] = 'image/png'
     return response
 
 
