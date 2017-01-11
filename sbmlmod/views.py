@@ -471,8 +471,10 @@ def __copasi(request, error, initial_model = False):
         request.session['copasi_results']['result_concentrations'] = concentrations
         request.session['copasi_results']['result_fluxes'] = fluxes
 
+        conc_unit, flux_unit = pycopasi.get_units(response[0])
+
         try:
-            image = pycopasi.scatterplot(concentrations, fluxes)
+            image = pycopasi.scatterplot(concentrations, fluxes, conc_unit, flux_unit)
         except:
             pass
         else:
