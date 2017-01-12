@@ -12,6 +12,7 @@ Dependencies
  - Django >= 1.7 `pip install django`
  - Suds 0.4 `pip install suds`
  - sqlparse >= 1.0 `pip install sqlparse`
+ - matplotlib >= 1.5 `pip install matplotlib`
 
 Configuration
 -------------
