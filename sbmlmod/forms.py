@@ -23,8 +23,10 @@ class SbmlModForm(forms.Form):
     species_data_file = forms.FileField(required=False)
     s_mapping_file = forms.FileField(required=False)
     s_data_column = forms.IntegerField(widget=forms.NumberInput(attrs={'style': 'width:4em'}), initial=2, min_value=1,  required=False)
-
     batch_mode = forms.BooleanField(required=False)
+
+    # Copasi WS (Steady state)
+    copasi_groups = forms.CharField(required=False, widget=forms.TextInput(attrs={'placeholder': 'Define groups'}))
 
     # Kinetic law parameters
     global_parameters = forms.BooleanField(required=False)
@@ -45,6 +47,9 @@ class SbmlModForm(forms.Form):
             self.fields['b_merge_mode'].choices = merge_modes
 
 class SbmlModResultForm(forms.Form):
+    # Copasi WS (Steady state)
+    copasi_groups = forms.CharField(required=False, widget=forms.TextInput(attrs={'placeholder': 'Define groups'}))
+
     # Kinetic law parameters
     global_parameters = forms.BooleanField(required=False)
     kinetic_law_parameters = forms.BooleanField(required=False)
