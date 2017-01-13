@@ -169,6 +169,4 @@ if __name__ == '__main__':
 
 	num_cols = len(conc.split(';')[0].split())
 
-	print >> sys.stderr, groupstring, ';', num_cols
-
 	print b64encode(scatterplot(conc, flux, conc_unit, flux_unit, parse_groups(groupstring, num_cols)))
