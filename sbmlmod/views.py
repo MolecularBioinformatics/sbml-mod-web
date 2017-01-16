@@ -27,8 +27,9 @@ PATH = os.path.dirname(inspect.getfile(inspect.currentframe()))
 PATH = os.path.split(PATH)[0]
 
 SBML_FILE = os.path.join(PATH, 'testfiles/sbml_model.xml')
-MAPPING_FILE = os.path.join(PATH, 'testfiles/mapping.txt')
+REACTION_MAPPING_FILE = os.path.join(PATH, 'testfiles/reaction_mapping.txt')
 KINETIC_LAW_DATA_FILE = os.path.join(PATH, 'testfiles/reaction_data.csv')
+SPECIES_MAPPING_FILE = os.path.join(PATH, 'testfiles/species_mapping.txt')
 SPECIES_DATA_FILE = os.path.join(PATH, 'testfiles/species_data.csv')
 
 try:
@@ -185,10 +186,11 @@ def __copasiws(models):
 
 def __read_example_files():
     sbml_file = open(SBML_FILE).read()
-    mapping_file = open(MAPPING_FILE).read()
+    reaction_mapping_file = open(REACTION_MAPPING_FILE).read()
     kinetic_law_data_file = open(KINETIC_LAW_DATA_FILE).read()
+    species_mapping_file = open(SPECIES_MAPPING_FILE).read()
     species_data_file = open(SPECIES_DATA_FILE).read()
-    return sbml_file, mapping_file, kinetic_law_data_file, species_data_file
+    return sbml_file, reaction_mapping_file, kinetic_law_data_file, species_mapping_file, species_data_file
 
 def __setup_session(request, form):
     submitted_input = {}
@@ -222,10 +224,10 @@ def __setup_session(request, form):
         submitted_input['s_column'] = form.cleaned_data['s_data_column']
         if not submitted_input['s_column']:
             submitted_input['s_column'] = 2
-        sbml_file, mapping_file, kinetic_law_data_file, species_data_file = __read_example_files()
+        sbml_file, reaction_mapping_file, kinetic_law_data_file, species_mapping_file, species_data_file = __read_example_files()
         submitted_input['sbml_file'] = sbml_file
-        submitted_input['kl_mapping_file'] = mapping_file
-        submitted_input['s_mapping_file'] = ''
+        submitted_input['kl_mapping_file'] = reaction_mapping_file
+        submitted_input['s_mapping_file'] = species_mapping_file
         submitted_input['kinetic_law_data_file'] = kinetic_law_data_file
         submitted_input['species_data_file'] = species_data_file
 
