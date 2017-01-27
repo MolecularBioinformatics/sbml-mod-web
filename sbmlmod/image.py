@@ -1,3 +1,8 @@
+#!/usr/bin/env python
+
+import matplotlib		# Fix for running matplotlib without Xwindow server
+matplotlib.use('Agg')	# Must be run *before* pyplot is imported
+
 from matplotlib import pyplot as plt
 from random import random
 from itertools import cycle, islice
