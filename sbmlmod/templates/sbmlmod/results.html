@@ -116,11 +116,11 @@ function toggleWarnings()
 			{% block perform_steady_state %}{{ block.super }}{% endblock %}
 			{% endif %}
 
-			{% if copasi_done and s_done and b_done and kl_done and not copasi_fault %}
+			{% if copasi_done and s_done and kl_done and not copasi_fault %}
 			<p class="success">
 				All analyses have been completed.
 			</p>
-			{% elif copasi_done and s_done and b_done and kl_done and copasi_fault %}
+			{% elif copasi_done and s_done and kl_done and copasi_fault %}
 			<p class="error">
 				All analyses have been completed, but errors occured.
 			</p>
