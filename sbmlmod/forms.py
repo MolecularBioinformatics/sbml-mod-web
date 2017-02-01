@@ -25,9 +25,6 @@ class SbmlModForm(forms.Form):
     s_data_column = forms.IntegerField(widget=forms.NumberInput(attrs={'style': 'width:4em'}), initial=2, min_value=1,  required=False)
     batch_mode = forms.BooleanField(required=False)
 
-    # Copasi WS (Steady state)
-    copasi_groups = forms.CharField(required=False, widget=forms.TextInput(attrs={'placeholder': 'Define groups'}))
-
     # Kinetic law parameters
     global_parameters = forms.BooleanField(required=False)
     kinetic_law_parameters = forms.BooleanField(required=False)
@@ -47,8 +44,11 @@ class SbmlModForm(forms.Form):
             self.fields['b_merge_mode'].choices = merge_modes
 
 class SbmlModResultForm(forms.Form):
-    # Copasi WS (Steady state)
-    copasi_groups = forms.CharField(required=False, widget=forms.TextInput(attrs={'placeholder': 'Define groups'}))
+    # Adjust visualisation
+    graph_groups = forms.CharField(required=False, widget=forms.TextInput(attrs={'placeholder': 'Define groups'}))
+
+    graph_species = forms.MultipleChoiceField(required=False, widget=forms.SelectMultiple(attrs={'size':'6'}))
+    graph_reactions = forms.MultipleChoiceField(required=False, widget=forms.SelectMultiple(attrs={'size':'6'}))
 
     # Kinetic law parameters
     global_parameters = forms.BooleanField(required=False)
@@ -63,8 +63,16 @@ class SbmlModResultForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         merge_modes = kwargs.pop('merge_modes', None)
+        copasi_results = kwargs.pop('copasi_results', None)
         super(SbmlModResultForm, self).__init__(*args, **kwargs)
         if merge_modes:
             self.fields['kl_merge_mode'].choices = merge_modes
             self.fields['b_merge_mode'].choices = merge_modes
 
+        if copasi_results:
+            if 'species' in copasi_results:
+                species = tuple((x, x) for x in copasi_results['species'])
+                self.fields['graph_species'].choices = species
+            if 'reactions' in copasi_results:
+                reactions = tuple((x, x) for x in copasi_results['reactions'])
+                self.fields['graph_reactions'].choices = reactions

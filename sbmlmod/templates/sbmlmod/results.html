@@ -115,6 +115,9 @@ function toggleWarnings()
 			{% if not copasi_done %}
 			{% block perform_steady_state %}{{ block.super }}{% endblock %}
 			{% endif %}
+			{% if copasi_done and not copasi_fault %}
+			{% block adjust_graphical_output %}{{ block.super }}{% endblock %}
+			{% endif %}
 
 			{% if copasi_done and s_done and kl_done and not copasi_fault %}
 			<p class="success">

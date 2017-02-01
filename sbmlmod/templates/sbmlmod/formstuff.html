@@ -73,13 +73,39 @@ document.getElementById("id_kinetic_law_parameters").onchange = updateParamToCha
 <fieldset id="field_steady_state">
 	<legend>Steady state analysis <a href="help/#copasi"><img src="{% static 'sbmlmod/images/help.png' %}" alt="help" /></a></legend>
 	<p class="left">
-		Perform a steady state analysis with COPASI<br />
-
-		<label for="copasi_groups">Groups for visualisation:</label> {{ form.copasi_groups }}
+		Perform a steady state analysis with COPASI
 	</p>
 
 	<p class="right">
 		<button type="submit" name="copasi">▶ run task</button>
+	</p>
+</fieldset>
+{% endblock %}
+
+{% block adjust_graphical_output %}
+<fieldset id="field_graphical_output">
+	<legend>Adjust graphical output <a href="help/#graphout"><img src="{% static 'sbmlmod/images/help.png' %}" alt="help" /></a></legend>
+	<p class="left">
+		Select metabolites and reactions to display in visualisation. Multiple selections are possible by pressing the Ctrl key while clicking.
+	</p>
+
+	<table>
+	<tr>
+		<td>Species</td>
+		<td>Reactions</td>
+	</tr>
+	<tr>
+		<td>{{ form.graph_species }}</td>
+		<td>{{ form.graph_reactions }}</td>
+	</tr>
+	</table>
+
+	<p>
+		<label for="copasi_groups">Groups for visualisation:</label> {{ form.graph_groups }}
+	</p>
+
+	<p class="right">
+		<button type="submit" name="visualisation">▶ run task</button>
 	</p>
 </fieldset>
 {% endblock %}

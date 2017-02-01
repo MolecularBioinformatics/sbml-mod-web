@@ -202,7 +202,6 @@ def __setup_session(request, form):
     submitted_input['bounds_default'] = form.cleaned_data['bounds_default']
     submitted_input['kl_merge_mode'] = form.cleaned_data['kl_merge_mode']
     submitted_input['b_merge_mode'] = form.cleaned_data['b_merge_mode']
-    submitted_input['copasi_groups'] = form.cleaned_data['copasi_groups']
     if not form.cleaned_data['example_files']:
         submitted_input['batch_mode'] = form.cleaned_data['batch_mode']
         submitted_input['kl_column'] = form.cleaned_data['kl_data_column']
@@ -250,8 +249,10 @@ def __setup_session(request, form):
 
 def __update_session(request, form):
     # Get data from request object
-    if not request.session['copasi_done']:
-        request.session['submitted_input']['copasi_groups'] = form.cleaned_data['copasi_groups']
+    if request.session['copasi_done']:
+        request.session['submitted_input']['graph_groups'] = form.cleaned_data['graph_groups']
+        request.session['submitted_input']['graph_species'] = form.cleaned_data['graph_species']
+        request.session['submitted_input']['graph_reactions'] = form.cleaned_data['graph_reactions']
 
     if not request.session['kl_done']:
         request.session['submitted_input']['global_parameters'] = form.cleaned_data['global_parameters']
@@ -443,8 +444,37 @@ def __species_concentrations(request, error, initial_model=False):
 
     return request, response, result_ok, error
 
+
+def __update_visualisation(request, error):
+    concentrations = request.session['copasi_results']['result_concentrations']
+    fluxes = request.session['copasi_results']['result_fluxes']
+    conc_unit = request.session['copasi_results']['conc_unit']
+    flux_unit = request.session['copasi_results']['flux_unit']
+
+    graph_groups = request.session['submitted_input']['graph_groups']
+    graph_species = request.session['submitted_input']['graph_species']
+    graph_reactions = request.session['submitted_input']['graph_reactions']
+
+    if not graph_groups:
+        graph_groups = 'na'
+    if not graph_species:
+        graph_species = ['na']
+    if not graph_reactions:
+        graph_reactions = ['na']
+
+    process = Popen(["python", "sbmlmod/image.py", concentrations.replace('\n', ';'), fluxes.replace('\n', ';'), conc_unit, flux_unit, graph_groups, ','.join(graph_species).replace(' ', '_'), ','.join(graph_reactions). replace(' ', '_')], stdout=PIPE)
+    output, err = process.communicate()
+    exit_code = process.wait()
+
+    if exit_code:
+        request.session['copasi_results']['image'] = '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' # base64 encoded png that says "error"
+    else:
+        request.session['copasi_results']['image'] = output
+
+    return request, None, False, error
+
+
 def __copasi(request, error, initial_model = False):
-    copasi_groups = request.session['submitted_input']['copasi_groups']
     if initial_model:
         sbml_file = request.session['submitted_input']['sbml_file']
         sbml_file_list = [sbml_file]
@@ -475,13 +505,19 @@ def __copasi(request, error, initial_model = False):
         for name, content in zip(name_list, response):
             request.session['copasi_results'][name] = content
 
-        concentrations, fluxes = pycopasi.get_tables(response, name_list)
+        concentrations, fluxes, species, reactions = pycopasi.get_tables(response, name_list)
         request.session['copasi_results']['result_concentrations'] = concentrations
         request.session['copasi_results']['result_fluxes'] = fluxes
+        request.session['copasi_results']['species'] = species
+        request.session['copasi_results']['reactions'] = reactions
 
         conc_unit, flux_unit = pycopasi.get_units(response[0])
+        request.session['copasi_results']['conc_unit'] = conc_unit
+        request.session['copasi_results']['flux_unit'] = flux_unit
 
-        process = Popen(["python", "sbmlmod/image.py", concentrations.replace('\n', ';'), fluxes.replace('\n', ';'), conc_unit, flux_unit, copasi_groups], stdout=PIPE)
+        #graph_groups = 'na'
+
+        process = Popen(["python", "sbmlmod/image.py", concentrations.replace('\n', ';'), fluxes.replace('\n', ';'), conc_unit, flux_unit, 'na', 'na', 'na'], stdout=PIPE)
         output, err = process.communicate()
         exit_code = process.wait()
 
@@ -560,7 +596,7 @@ def index(request):
 def results(request):
     error = []
     if request.method == 'POST':
-        form = SbmlModResultForm(request.POST)
+        form = SbmlModResultForm(request.POST, copasi_results = request.session['copasi_results'])
         result_ok = False
         if form.is_valid():
             # Setup session
@@ -578,6 +614,9 @@ def results(request):
                 request, response, result_ok, error = __species_concentrations(request, error)
             elif 'copasi' in request.POST:
                 request, response, result_ok, error = __copasi(request, error)
+                result_ok = False
+            elif 'visualisation' in request.POST:
+                request, response, result_ok, error = __update_visualisation(request, error)
                 result_ok = False
 
             if result_ok:
@@ -599,7 +638,7 @@ def results(request):
         for n in client.factory.create('MergeModeType'):
              merge_modes.append((n[0], n[0].title()))
         merge_modes = tuple(merge_modes)
-        form = SbmlModResultForm(merge_modes=merge_modes)
+        form = SbmlModResultForm(merge_modes=merge_modes, copasi_results = request.session['copasi_results'])
     try:
         version = client.service.GetVersion()
     except URLError:

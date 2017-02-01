@@ -2,7 +2,7 @@
 
 import re
 
-def _get_values_from_single_file(f, fn, conc_dict, flux_dict):
+def _get_values_from_single_file(f, fn, conc_dict, flux_dict, species, reactions):
 	if not f.startswith('A steady state with given resolution was found.'):
 		return
 
@@ -19,6 +19,7 @@ def _get_values_from_single_file(f, fn, conc_dict, flux_dict):
 			conc = lline[1]
 			if name not in conc_dict:
 				conc_dict[name] = {}
+				species.append(name)
 			conc_dict[name][fn] = conc
 		elif active == 'flux':
 			if not line:
@@ -28,6 +29,7 @@ def _get_values_from_single_file(f, fn, conc_dict, flux_dict):
 			flux = lline[1]
 			if name not in flux_dict:
 				flux_dict[name] = {}
+				reactions.append(name)
 			flux_dict[name][fn] = flux
 		elif line.startswith('Species	Concentration'):
 			active = 'conc'
@@ -39,10 +41,13 @@ def get_tables(results, names):
 	conc_dict = {}
 	flux_dict = {}
 
+	species = []
+	reactions = []
+
 	sorted_names = sorted(names)
 
 	for f, fn in zip(results, names):
-		_get_values_from_single_file(f, fn, conc_dict, flux_dict)
+		_get_values_from_single_file(f, fn, conc_dict, flux_dict, species, reactions)
 
 	conc_list = []
 	conc_list.append('\t' + '\t'.join(names))
@@ -66,7 +71,7 @@ def get_tables(results, names):
 				row.append('na')
 		flux_list.append('\t'.join(row))
 
-	return '\n'.join(conc_list), '\n'.join(flux_list)
+	return '\n'.join(conc_list), '\n'.join(flux_list), species, reactions
 
 
 def get_units(f):

@@ -54,9 +54,9 @@ def parse_groups(s, num_columns):
 	return groups
 
 
-def scatterplot(concentration, flux, conc_unit, flux_unit, groups):
+def scatterplot(concentration, flux, conc_unit, flux_unit, groups, species, reactions):
 
-	def string_to_table(table_string, groups):
+	def string_to_table(table_string, groups, wanted):
 		max_value = 0
 		min_value = float('Inf')
 
@@ -70,6 +70,8 @@ def scatterplot(concentration, flux, conc_unit, flux_unit, groups):
 				continue
 			lline = iter(line.split('\t'))
 			current_tickmark = next(lline)
+			if wanted and current_tickmark.replace(' ', '_') not in wanted:
+				continue
 			current = []
 			for value in lline:
 				try:
@@ -111,8 +113,24 @@ def scatterplot(concentration, flux, conc_unit, flux_unit, groups):
 		return tuple(tickmarkers), tuple(values), min_value, max_value
 
 
-	ctickmarkers, cvalues, cmin_value, cmax_value = string_to_table(concentration, groups)
-	ftickmarkers, fvalues, fmin_value, fmax_value = string_to_table(flux, groups)
+	if species == 'na':
+		species = set()
+	else:
+		species = set(species.split(','))
+
+	if reactions == 'na':
+		reactions = set()
+	else:
+		reactions = set(reactions.split(','))
+
+	with open('/home/mbo049/Desktop/bla.txt', 'a') as f:
+		f.write(repr(reactions))
+		f.write('\n\n')
+		f.write(repr(species))
+		f.write('\n\n')
+
+	ctickmarkers, cvalues, cmin_value, cmax_value = string_to_table(concentration, groups, species)
+	ftickmarkers, fvalues, fmin_value, fmax_value = string_to_table(flux, groups, reactions)
 
 	if len(ctickmarkers) > 50:
 		ctickmarkers = ctickmarkers[:50]
@@ -170,11 +188,11 @@ def scatterplot(concentration, flux, conc_unit, flux_unit, groups):
 if __name__ == '__main__':
 	import sys
 
-	if len(sys.argv) != 6:
+	if len(sys.argv) != 8:
 		sys.exit(1)
 
-	_, conc, flux, conc_unit, flux_unit, groupstring = sys.argv
+	_, conc, flux, conc_unit, flux_unit, groupstring, species, reactions = sys.argv
 
 	num_cols = len(conc.split(';')[0].split())
 
-	print b64encode(scatterplot(conc, flux, conc_unit, flux_unit, parse_groups(groupstring, num_cols)))
+	print b64encode(scatterplot(conc, flux, conc_unit, flux_unit, parse_groups(groupstring, num_cols), species, reactions))
