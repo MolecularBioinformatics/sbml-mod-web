@@ -99,6 +99,9 @@ def scatterplot(concentration, flux, conc_unit, flux_unit, groups):
 
 			current_wo_zero = [x for x in current if x > 0]
 
+			if not current_wo_zero:
+				continue
+
 			max_value = max(max_value, *current)
 			if current_wo_zero:
 				min_value = min(min_value, *current_wo_zero)
