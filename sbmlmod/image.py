@@ -123,19 +123,19 @@ def scatterplot(concentration, flux, conc_unit, flux_unit, groups, species, reac
 	else:
 		reactions = set(reactions.split(','))
 
-	with open('/home/mbo049/Desktop/bla.txt', 'a') as f:
-		f.write(repr(reactions))
-		f.write('\n\n')
-		f.write(repr(species))
-		f.write('\n\n')
+	#with open('/home/mbo049/Desktop/bla.txt', 'a') as f:
+	#	f.write(repr(reactions))
+	#	f.write('\n')
+	#	f.write(repr(species))
+	#	f.write('\n\n')
 
 	ctickmarkers, cvalues, cmin_value, cmax_value = string_to_table(concentration, groups, species)
 	ftickmarkers, fvalues, fmin_value, fmax_value = string_to_table(flux, groups, reactions)
 
-	if len(ctickmarkers) > 50:
-		ctickmarkers = ctickmarkers[:50]
-	if len(ftickmarkers) > 50:
-		ftickmarkers = ftickmarkers[:50]
+	if len(ctickmarkers) > 100:
+		ctickmarkers = ctickmarkers[:100]
+	if len(ftickmarkers) > 100:
+		ftickmarkers = ftickmarkers[:100]
 
 	fig = plt.figure(figsize=(max(len(ctickmarkers), len(ftickmarkers)) * 0.3 + 2, 9))
 	cax = fig.add_subplot(2,1,1)

@@ -72,7 +72,7 @@ class SbmlModResultForm(forms.Form):
         if copasi_results:
             if 'species' in copasi_results:
                 species = tuple((x, x) for x in copasi_results['species'])
-                self.fields['graph_species'].choices = species
+                self.fields['graph_species'].choices = sorted(species)
             if 'reactions' in copasi_results:
                 reactions = tuple((x, x) for x in copasi_results['reactions'])
-                self.fields['graph_reactions'].choices = reactions
+                self.fields['graph_reactions'].choices = sorted(reactions)

@@ -469,6 +469,8 @@ def __update_visualisation(request, error):
     if exit_code:
         request.session['copasi_results']['image'] = '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' # base64 encoded png that says "error"
     else:
+        #with open('/home/mbo049/Desktop/img.png', 'wb') as f:
+        #    f.write(base64.b64decode(output))
         request.session['copasi_results']['image'] = output
 
     return request, None, False, error
@@ -684,7 +686,6 @@ def get_image(request):
     response = HttpResponse(img)
     response['Content-Type'] = 'image/png'
     return response
-
 
 def get_models_zipped(request):
     s = StringIO.StringIO()
