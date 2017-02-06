@@ -36,12 +36,12 @@ class SbmlModForm(forms.Form):
     kl_merge_mode = forms.ChoiceField(choices=MODES, required=False)
     b_merge_mode = forms.ChoiceField(choices=MODES, required=False)
 
-    def __init__(self, *args, **kwargs):
-        merge_modes = kwargs.pop('merge_modes', None)
-        super(SbmlModForm, self).__init__(*args, **kwargs)
-        if merge_modes:
-            self.fields['kl_merge_mode'].choices = merge_modes
-            self.fields['b_merge_mode'].choices = merge_modes
+    ##def __init__(self, *args, **kwargs):
+    ##    merge_modes = kwargs.pop('merge_modes', None)
+    ##    super(SbmlModForm, self).__init__(*args, **kwargs)
+    ##    if merge_modes:
+    ##        self.fields['kl_merge_mode'].choices = merge_modes
+    ##        self.fields['b_merge_mode'].choices = merge_modes
 
 class SbmlModResultForm(forms.Form):
     # Adjust visualisation
@@ -62,12 +62,12 @@ class SbmlModResultForm(forms.Form):
     b_merge_mode = forms.ChoiceField(choices=MODES, required=False)
 
     def __init__(self, *args, **kwargs):
-        merge_modes = kwargs.pop('merge_modes', None)
+        ##merge_modes = kwargs.pop('merge_modes', None)
         copasi_results = kwargs.pop('copasi_results', None)
         super(SbmlModResultForm, self).__init__(*args, **kwargs)
-        if merge_modes:
-            self.fields['kl_merge_mode'].choices = merge_modes
-            self.fields['b_merge_mode'].choices = merge_modes
+        ##if merge_modes:
+        ##    self.fields['kl_merge_mode'].choices = merge_modes
+        ##    self.fields['b_merge_mode'].choices = merge_modes
 
         if copasi_results:
             if 'species' in copasi_results:

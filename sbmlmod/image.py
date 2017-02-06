@@ -123,12 +123,6 @@ def scatterplot(concentration, flux, conc_unit, flux_unit, groups, species, reac
 	else:
 		reactions = set(reactions.split(','))
 
-	#with open('/home/mbo049/Desktop/bla.txt', 'a') as f:
-	#	f.write(repr(reactions))
-	#	f.write('\n')
-	#	f.write(repr(species))
-	#	f.write('\n\n')
-
 	ctickmarkers, cvalues, cmin_value, cmax_value = string_to_table(concentration, groups, species)
 	ftickmarkers, fvalues, fmin_value, fmax_value = string_to_table(flux, groups, reactions)
 
