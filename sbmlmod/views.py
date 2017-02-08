@@ -517,8 +517,6 @@ def __copasi(request, error, initial_model = False):
         request.session['copasi_results']['conc_unit'] = conc_unit
         request.session['copasi_results']['flux_unit'] = flux_unit
 
-        #graph_groups = 'na'
-
         process = Popen(["python", "sbmlmod/image.py", concentrations.replace('\n', ';'), fluxes.replace('\n', ';'), conc_unit, flux_unit, 'na', 'na', 'na'], stdout=PIPE)
         output, err = process.communicate()
         exit_code = process.wait()
