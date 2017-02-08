@@ -44,8 +44,6 @@ def get_tables(results, names):
 	species = []
 	reactions = []
 
-	sorted_names = sorted(names)
-
 	for f, fn in zip(results, names):
 		_get_values_from_single_file(f, fn, conc_dict, flux_dict, species, reactions)
 
@@ -53,7 +51,7 @@ def get_tables(results, names):
 	conc_list.append('\t' + '\t'.join(names))
 	for conc in sorted(conc_dict.keys()):
 		row = [conc]
-		for name in sorted_names:
+		for name in names:
 			try:
 				row.append(conc_dict[conc][name])
 			except KeyError:
@@ -64,7 +62,7 @@ def get_tables(results, names):
 	flux_list.append('\t' + '\t'.join(names))
 	for flux in sorted(flux_dict.keys()):
 		row = [flux]
-		for name in sorted_names:
+		for name in names:
 			try:
 				row.append(flux_dict[flux][name])
 			except KeyError:
