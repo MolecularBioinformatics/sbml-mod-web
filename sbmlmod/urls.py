@@ -5,6 +5,7 @@ from sbmlmod import views
 urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^help/$', views.help, name='help'),
+    url(r'^results/help/$', views.help, name='help'),
     url(r'^results/$', views.results, name='results'),
     url(r'^results/get_models_zipped/$', views.get_models_zipped, name='get_models_zipped'),
     url(r'^results/image/$', views.get_image, name='get_image'),
