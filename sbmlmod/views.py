@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.db.utils import OperationalError
 from .forms import SbmlModForm, SbmlModResultForm
 from .models import Wsdl
@@ -671,21 +671,30 @@ def help(request):
     return render(request, 'sbmlmod/help.html', context)
 
 def get_model(request, name):
-    model = request.session['result_contents'][name]
+    try:
+        model = request.session['result_contents'][name]
+    except KeyError:
+        raise Http404
     response = HttpResponse(model)
     response['Content-Disposition'] = 'attachment; filename=%s.xml' % name
     response['Content-Type'] = 'application/xml'
     return response
 
 def get_simulation(request, name):
-    simulation = request.session['copasi_results'][name]
+    try:
+        simulation = request.session['copasi_results'][name]
+    except KeyError:
+        raise Http404
     response = HttpResponse(simulation)
     response['Content-Disposition'] = 'attachment; filename=%s.txt' % name
     response['Content-Type'] = 'application/txt'
     return response
 
 def get_image(request):
-    img = base64.b64decode(request.session['copasi_results']['image'])
+    try:
+        img = base64.b64decode(request.session['copasi_results']['image'])
+    except KeyError:
+        raise Http404
     response = HttpResponse(img)
     response['Content-Type'] = 'image/png'
     return response
