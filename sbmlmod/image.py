@@ -59,9 +59,13 @@ def scatterplot(concentration, flux, conc_unit, flux_unit, groups, species, reac
 	def string_to_table(table_string, groups, wanted):
 		max_value = 0
 		min_value = float('Inf')
-
 		tickmarkers = []
 		values = []
+
+		const_max_value = 0
+		const_min_value = float('Inf')
+		const_tickmarkers = []
+		const_values = []
 
 		iter_lines = iter(table_string.split(';'))
 		next(iter_lines)
@@ -94,23 +98,29 @@ def scatterplot(concentration, flux, conc_unit, flux_unit, groups, species, reac
 				current_values = [tuple(current)]
 				current_tickmarks = [current_tickmark]
 
-
-			#                                   This checks if all list elements are the same
-			if not current or len(current) >= 3 and current.count(current[0]) == len(current):
-				continue
-
 			current_wo_zero = [x for x in current if x > 0]
 
 			if not current_wo_zero:
 				continue
 
-			max_value = max(max_value, *current)
-			if current_wo_zero:
-				min_value = min(min_value, *current_wo_zero)
+			const_max_value = max(const_max_value, *current_wo_zero)
+			const_min_value = min(const_min_value, *current_wo_zero)
+			const_values.extend(current_values)
+			const_tickmarkers.extend(current_tickmarks)
+
+			#                                   This checks if all list elements are the same
+			if len(current) >= 3 and current.count(current[0]) == len(current):
+				continue
+
+			max_value = max(max_value, *current_wo_zero)
+			min_value = min(min_value, *current_wo_zero)
 			values.extend(current_values)
 			tickmarkers.extend(current_tickmarks)
 
-		return tuple(tickmarkers), tuple(values), min_value, max_value
+		if tickmarkers:
+			return tuple(tickmarkers), tuple(values), min_value, max_value
+		else:
+			return tuple(const_tickmarkers), tuple(const_values), const_min_value, const_max_value
 
 
 	if species == 'na':
