@@ -38,6 +38,15 @@ try:
 except OperationalError:
     pass
 
+
+def _sanitize(s):
+    '''
+    Turns all "strange" line-endings into linux line endings (LF) and replaces commas with dots.
+    '''
+
+    return sreplace('\r\n', '\n').replace('\r', '\n').replace(',', '.')
+
+
 # WS calls
 
 def __scale_global_ws(sbml_file_list, mapping_file, expression_file, kl_column = 2, batch_mode=False, merge_mode='MAX'):
@@ -211,10 +220,10 @@ def __setup_session(request, form):
         if not submitted_input['s_column']:
             submitted_input['s_column'] = 2
         submitted_input['sbml_file'] = request.FILES.get('sbml_file', StringIO.StringIO()).read()
-        submitted_input['kl_mapping_file'] = request.FILES.get('kl_mapping_file', StringIO.StringIO()).read()
-        submitted_input['s_mapping_file'] = request.FILES.get('s_mapping_file', StringIO.StringIO()).read()
-        submitted_input['kinetic_law_data_file'] = request.FILES.get('kinetic_law_data_file', StringIO.StringIO()).read()
-        submitted_input['species_data_file'] = request.FILES.get('species_data_file', StringIO.StringIO()).read()
+        submitted_input['kl_mapping_file'] = _sanitize(request.FILES.get('kl_mapping_file', StringIO.StringIO()).read())
+        submitted_input['s_mapping_file'] = _sanitize(request.FILES.get('s_mapping_file', StringIO.StringIO()).read())
+        submitted_input['kinetic_law_data_file'] = _sanitize(request.FILES.get('kinetic_law_data_file', StringIO.StringIO()).read())
+        submitted_input['species_data_file'] = _sanitize(request.FILES.get('species_data_file', StringIO.StringIO()).read())
     else:
         submitted_input['batch_mode'] = form.cleaned_data['batch_mode']
         submitted_input['kl_column'] = form.cleaned_data['kl_data_column']
