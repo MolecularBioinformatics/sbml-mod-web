@@ -44,7 +44,7 @@ def _sanitize(s):
     Turns all "strange" line-endings into linux line endings (LF) and replaces commas with dots.
     '''
 
-    return sreplace('\r\n', '\n').replace('\r', '\n').replace(',', '.')
+    return s.replace('\r\n', '\n').replace('\r', '\n').replace(',', '.')
 
 
 # WS calls
